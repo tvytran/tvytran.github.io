@@ -1,6 +1,47 @@
+.container{
+    width: 80%;  /* Changed from 100% to 80% to allow centering */
+    max-width: 1200px;  /* Added max-width to prevent container from getting too wide on large screens */
+    border-radius: 30px;
+    margin: 0 auto;
+    display: flex;  /* Enable flexbox */
+    flex-direction: column;  /* Stack items vertically */
+    align-items: center;  /* Center items horizontally */
+    justify-content: center;  /* Center items vertically */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
 #title{
     color: pink;
     font-size: 100px;
-    align-items: center;
-    
+    text-align: center;
+
+}
+#subtitle{
+    text-align: center;
+    color: lightgray;
+}
+
+#button{
+    background-color: pink;
+    margin: 0 auto;  /* Centers the button horizontally */
+    display: block; 
+    width: 200px;
+    height: 50px;
+    border-radius: 20px;
+    font-size: 20px;
+}
+
+#profile-picture{
+    border-radius: 50%;
+    width: 250px;
+    height: 300px;
+}
+
+#about-me{
+    text-align: center;
+    color: lightgray;
+    font-size: 20px;
+
+    width: 500px;
 }
