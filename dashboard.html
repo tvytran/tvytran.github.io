@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Personal Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 350px 1fr 300px;
+            gap: 20px;
+            height: calc(100vh - 40px);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.15);
+        }
+
+        /* Left Column - Profile */
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff6b9d;
+            margin-bottom: 5px;
+        }
+
+        .profile-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .role-section {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .role-item {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 15px;
+            border-left: 4px solid #ff6b9d;
+        }
+
+        .role-item h4 {
+            color: #ff6b9d;
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .role-item p {
+            color: #666;
+            font-size: 12px;
+        }
+
+        /* Middle Column - Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #ff6b9d;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 105, 180, 0.1);
+        }
+
+        .social-icon:hover {
+            background: #ff6b9d;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .portfolio-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.1);
+        }
+
+        .portfolio-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .portfolio-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            color: #ff6b9d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .portfolio-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-arrow {
+            width: 40px;
+            height: 40px;
+            background: #ff6b9d;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-arrow:hover {
+            background: #ff5285;
+            transform: scale(1.1);
+        }
+
+        .portfolio-showcase {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ff9a9e;
+        }
+
+        .showcase-text {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid #ff6b9d;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .showcase-text::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #ff6b9d;
+        }
+
+        .showcase-number {
+            font-size: 60px;
+            font-weight: 900;
+            color: #ff6b9d;
+            margin-bottom: 10px;
+        }
+
+        .showcase-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .showcase-icon {
+            width: 50px;
+            height: 50px;
+            background: #ff6b9d;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        /* Right Column - Side Projects */
+        .side-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .top-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .close-btn {
+            width: 50px;
+            height: 50px;
+            background: #ff6b9d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .volume-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        .side-projects-title {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.1);
+        }
+
+        .project-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            border-radius: 10px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .project-title {
+            font-weight: 700;
+            color: #ff6b9d;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .project-btn {
+            background: linear-gradient(135deg, #00d4aa, #00b894);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 212, 170, 0.3);
+        }
+
+        .bottom-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #ff6b9d;
+        }
+
+        .dot:not(.active) {
+            background: rgba(255, 105, 180, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                height: auto;
+            }
+
+            .profile-avatar {
+                width: 150px;
+                height: 150px;
+            }
+
+            .avatar-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .social-links {
+                flex-wrap: wrap;
+            }
+
+            .portfolio-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Left Column - Profile -->
+        <div class="card profile-card">
+            <div class="profile-avatar">
+                <div class="avatar-icon">👋</div>
+            </div>
+            <h1 class="profile-name">YOUR NAME</h1>
+            <p class="profile-title">Creative Designer</p>
+            <button class="contact-btn">Contact Me</button>
+            
+            <div class="role-section">
+                <div class="role-item">
+                    <h4>⚙️ UI/UX Designer</h4>
+                    <p>Creating beautiful user experiences</p>
+                </div>
+                <div class="role-item">
+                    <h4>🎨 Graphic Designer</h4>
+                    <p>Visual storytelling and branding</p>
+                </div>
+                <div class="role-item">
+                    <h4>🎬 Motion Designer</h4>
+                    <p>Bringing designs to life</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Column - Main Content -->
+        <div class="main-content">
+            <!-- Social Links -->
+            <div class="card">
+                <div class="social-links">
+                    <a href="#" class="social-icon">𝕏</a>
+                    <a href="#" class="social-icon">💼</a>
+                    <a href="#" class="social-icon">✉️</a>
+                </div>
+            </div>
+
+            <!-- Portfolio Section -->
+            <div class="portfolio-section">
+                <div class="portfolio-header">
+                    <div class="portfolio-title">
+                        <span>📁</span>
+                        <span>Portfolio</span>
+                    </div>
+                    <div class="portfolio-nav">
+                        <div class="nav-arrow">←</div>
+                        <div class="nav-arrow">→</div>
+                    </div>
+                </div>
+
+                <div class="portfolio-showcase">
+                    <div class="showcase-text">Thank you all!</div>
+                    <div class="showcase-number">500</div>
+                    <p style="color: #666;">Followers</p>
+                    <div class="showcase-icons">
+                        <div class="showcase-icon">📊</div>
+                        <div class="showcase-icon">💡</div>
+                        <div class="showcase-icon">🎯</div>
+                        <div class="showcase-icon">✨</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Side Projects -->
+        <div class="side-column">
+            <div class="top-controls">
+                <button class="close-btn">×</button>
+                <button class="volume-btn">🔊</button>
+            </div>
+
+            <div class="side-projects-title">Side Projects</div>
+
+            <div class="project-card">
+                <div class="project-icon">🛋️</div>
+                <h3 class="project-title">Design Concept</h3>
+                <p class="project-description">My furniture design curation on Instagram.</p>
+                <button class="project-btn">Go!</button>
+            </div>
+
+            <div class="bottom-dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive functionality
+        document.querySelectorAll('.nav-arrow').forEach(arrow => {
+            arrow.addEventListener('click', function() {
+                this.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1.1)';
+                }, 100);
+            });
+        });
+
+        document.querySelectorAll('.dot').forEach((dot, index) => {
+            dot.addEventListener('click', function() {
+                document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Contact button interaction
+        document.querySelector('.contact-btn').addEventListener('click', function() {
+            this.textContent = 'Message Sent! ✨';
+            setTimeout(() => {
+                this.textContent = 'Contact Me';
+            }, 2000);
+        });
+
+        // Social icons hover effect
+        document.querySelectorAll('.social-icon').forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1) rotate(5deg)';
+            });
+            icon.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+    </script>
+</body>
+</html>
