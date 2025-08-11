@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thuy Vy Tran | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libertinus+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #a7d8f7;
+            --primary-alt: #d0eaff;
+            --white: #ffffff;
+            --text: #333333;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Libertinus Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--white);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        /* Background blobs */
+        .background-blobs {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1; overflow: hidden;
+            pointer-events: none;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: colorShift 8s ease-in-out infinite;
+        }
+        .blob1 {
+            width: 420px; height: 420px;
+            top: -120px; left: -160px;
+        }
+        .blob2 {
+            width: 370px; height: 370px;
+            bottom: -120px; right: -100px;
+            animation-delay: 2s;
+        }
+        @keyframes colorShift {
+            0%, 100% { background: var(--primary); }
+            50% { background: var(--primary-alt); }
+        }
+        /* Header */
+        header {
+            background: transparent;
+            backdrop-filter: none;
+            padding: 1rem 2rem;
+            box-shadow: none;
+            position: fixed; /* overlay header so section starts at very top */
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo {
+            display: none;
+            font-family: 'Libertinus Sans', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        nav a:hover { color: var(--primary); }
+        /* Sections */
+        .section {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: auto;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            position: sticky;
+            top: 0;
+            min-height: 90vh;
+            z-index: 1;
+        }
+        /* Ensure later sections stack above earlier ones for proper slide-over */
+        .section:nth-of-type(2) { z-index: 2; }
+        .section:nth-of-type(3) { z-index: 3; }
+        .section:nth-of-type(4) { z-index: 4; }
+        .section:nth-of-type(5) { z-index: 5; }
+        /* Allow tall sections to fully scroll (disable sticky) */
+        #projects.projects-section {
+            position: relative;
+            min-height: auto;
+            padding: 0;
+            max-width: 100vw; /* full-bleed */
+            margin: 0;        /* remove centered container margins */
+        }
+        .projects-scroll {
+            height: 300vh; /* scroll length controlling the horizontal movement */
+            position: relative;
+        }
+        .projects-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: pan-y; /* allow vertical scroll to pass at edges */
+            --project-w: min(1100px, 85vw);
+            --project-h: min(700px, 80vh);
+        }
+        .projects-track {
+            display: flex;
+            height: 100%;
+            width: 300vw; /* 3 slides */
+            transform: translateX(0);
+            transition: transform 0.55s ease;
+        }
+        .projects-intro {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0 0 0.75rem 0;
+            color: var(--text);
+        }
+        .project-slide {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            flex: 0 0 100vw;
+            overflow: hidden;
+            color: inherit;
+            text-decoration: none;
+        }
+        .project-media, .project-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .project-overlay {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: var(--project-w);
+            bottom: calc((100vh - var(--project-h)) / 2);
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0));
+            color: #fff;
+            z-index: 2;
+        }
+        .project-overlay h3 { margin: 0 0 0.5rem 0; }
+        .project-overlay p { margin: 0 0 0.5rem 0; }
+        .project-cta { opacity: 0.9; }
+
+        /* Project slide border/frame */
+        .project-slide { position: relative; }
+        /* Scale content down slightly so it sits within the outer frame */
+        .project-media {
+            position: relative;
+            width: var(--project-w);
+            height: var(--project-h);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+            box-shadow: 0 0 24px rgba(167,216,247,0.35);
+            border: 4px solid rgba(167, 216, 247, 0.95);
+        }
+        /* Ensure Skills slides up and covers Projects */
+        #skills.section {
+            position: sticky;
+            top: 0;
+            min-height: 100vh;
+            z-index: 3;
+            margin-top: -1px; /* eliminate any gap so it takes over immediately */
+            padding-top: 3rem; /* slightly tighter top padding for earlier takeover */
+        }
+        /* Intro section (non-sticky space for a personal comment) */
+        .intro-section {
+            position: relative;
+            top: auto;
+            min-height: auto;
+            padding: 2.5rem 2rem;
+        }
+        .intro-text {
+            font-size: 1.15rem;
+        }
+        /* Full-width alternating section backgrounds */
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100dvw; /* avoid scrollbar rounding issues */
+            height: calc(100% + 2px); /* extend below as well */
+            background: var(--white);
+            z-index: -1;
+            will-change: transform; /* help avoid subpixel seams */
+        }
+        .section:nth-of-type(odd)::before {
+            background: var(--primary-alt);
+        }
+        /* Force Projects to use the site background color instead of alternating blue */
+        #projects.section::before {
+            background: linear-gradient(to bottom, var(--white) 0%, var(--primary-alt) 100%);
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        /* Projects grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+        /* Projects: force 2 columns on larger screens */
+        #projects .grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.75rem;
+        }
+        @media (max-width: 900px) {
+            #projects .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .card {
+            display: block;
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08),
+                        0 0 25px var(--primary-alt);
+        }
+        .card:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 4px;
+        }
+        /* Project card screenshot */
+        .card-screenshot {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 10px;
+            background: rgba(167, 216, 247, 0.12);
+            border: 1px dashed rgba(167, 216, 247, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+        }
+        .card-screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* About section layout */
+        .about-content {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 1.25rem;
+            align-items: center;
+        }
+        .about-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+        }
+        .about-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        @media (max-width: 640px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .about-photo {
+                margin: 0 auto;
+            }
+        }
+
+        /* Experience timeline */
+        .timeline {
+            --line-offset: 16px; /* distance from section edge to vertical line */
+            --date-width: 180px; /* width allocated for left-side dates */
+            position: relative;
+            padding-left: calc(var(--line-offset) + 24px);
+            margin-top: 1rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: var(--line-offset);
+            width: 2px;
+            background: rgba(167, 216, 247, 0.8);
+        }
+        .job {
+            position: relative;
+            margin-bottom: 1.75rem;
+            padding-left: 0.25rem;
+        }
+        .job-date {
+            position: absolute;
+            top: 0;
+            left: calc(-24px - 12px - var(--date-width));
+            width: var(--date-width);
+            text-align: right;
+            color: #667085;
+            font-size: 0.95rem;
+            line-height: 1.2;
+        }
+        .job::before {
+            content: '';
+            position: absolute;
+            top: 0.5rem;
+            left: calc(-24px - 6px); /* align marker to line; 24px padding gap + half dot width */
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 2px rgba(167, 216, 247, 0.5);
+        }
+        .job h3 {
+            margin: 0 0 4px 0;
+        }
+        .job span {
+            display: block;
+            color: #667085;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .job ul {
+            margin: 0 0 8px 1rem;
+        }
+        .job p { margin: 0; }
+        @media (max-width: 640px) {
+            .timeline {
+                --line-offset: 12px;
+                padding-left: calc(var(--line-offset) + 22px);
+            }
+            .job-date {
+                position: static;
+                width: auto;
+                text-align: left;
+                margin-bottom: 6px;
+            }
+            .job::before {
+                left: calc(-22px - 6px);
+            }
+        }
+
+        /* Contact (last section) — follow alternating theme */
+        #contact.section::before { background: var(--primary-alt); }
+        #contact { color: inherit; }
+        .contact-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .contact-cta .btn-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            color: #000;
+            border-radius: 9999px;
+            padding: 0.6rem 1rem 0.6rem 0.9rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            box-shadow: 0 10px 24px rgba(255,255,255,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .contact-cta .btn-pill:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(255,255,255,0.10); }
+        .contact-cta .arrow { display:inline-block; transform: translateX(0); transition: transform 0.2s ease; }
+        .contact-cta .btn-pill:hover .arrow { transform: translateX(3px); }
+
+        .contact-links {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 1.25rem 4rem;
+        }
+        .contact-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            opacity: 0.9;
+            transition: opacity 0.2s ease, color 0.2s ease;
+        }
+        .contact-links a:hover { opacity: 1; color: var(--primary); }
+
+        @media (max-width: 720px) {
+            .contact-wrap { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+            .contact-links { grid-template-columns: 1fr 1fr; gap: 0.9rem 2rem; }
+        }
+
+        /* Make last section (Contact) smaller vertically */
+        #contact.section {
+            position: relative; /* non-sticky */
+            min-height: auto;
+            padding: 3rem 2rem 1.75rem; /* push content down a bit more */
+            z-index: 50; /* ensure it overlays previous sticky content */
+        }
+        /* Extend background to viewport to hide underlying sticky slide edge */
+        #contact.section::before { height: 100vh; }
+
+        /* Skills section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+        }
+        .skill-item {
+            background: var(--white);
+            border-left: 0;
+            border-right: 0;
+            border-top: 4px solid rgba(167, 216, 247, 0.95);
+            border-bottom: 4px solid rgba(167, 216, 247, 0.95);
+            border-radius: 14px;
+            padding: 1.25rem;
+            min-height: 170px;
+            text-align: center;
+            box-shadow: 0 8px 14px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .skill-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 18px rgba(0,0,0,0.06), 0 0 16px rgba(167,216,247,0.25);
+        }
+        .skill-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .skill-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+        }
+        .skill-desc {
+            font-size: 1rem;
+            color: #667085;
+        }
+
+        /* About section */
+    .about {
+      margin: 3rem auto;
+      max-width: 1100px;
+      text-align: center;
+      padding: 0 2rem;
+    }
+    .about h2 { font-size: 1.4rem; margin-bottom: 1rem; text-align: center; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 560px) 320px;
+      gap: 1.5rem;
+      align-items: center;
+      justify-content: center;
+    }
+    .about-text { font-size: 1.05rem; line-height: 1.6; text-align: left; margin: 0 auto; }
+    .about-photo {
+      width: 100%; height: 100%; max-height: 320px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      border: 2px solid var(--primary-alt);
+      background: #f9fbff;
+    }
+    .about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    @media (max-width: 740px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about { text-align: left; }
+    }
+
+        footer {
+            background: rgba(167, 216, 247, 0.3);
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+    </div>
+
+    <header>
+        <nav>
+            <h1 class="logo">Thuy Vy Tran</h1>
+            <ul>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <section id="projects" class="section projects-section">
+
+        <div class="projects-scroll">
+            <div class="projects-sticky">
+                <div class="projects-track">
+                    <a class="project-slide" href="https://vsacolumbia.com" target="_blank" rel="noopener noreferrer">
+                        <div class="project-media">
+                            <img src="vsa.png" alt="VSA Website" loading="lazy">
+                        </div>
+                        <div class="project-overlay">
+                            <h3>VSA Website</h3>
+                            <p>Full-stack app for 100+ students with secure auth, role-based access, and real-time family leaderboards.</p>
+                            <span class="project-cta">Open project →</span>
+                        </div>
+                    </a>
+                    <a class="project-slide" href="https://ui-design-plants.vercel.app/" target="_blank" rel="noopener noreferrer">
+                        <div class="project-media">
+                            <img src="plants.png" alt="Interactive Plant Learning" loading="lazy">
+                        </div>
+                        <div class="project-overlay">
+                            <h3>Interactive Plant Learning</h3>
+                            <p>Educational web app with placement quiz and instant feedback across room environments.</p>
+                            <span class="project-cta">Open project →</span>
+                        </div>
+                    </a>
+                    <a class="project-slide" href="https://github.com/tvytran/BobaEscapeGame" target="_blank" rel="noopener noreferrer">
+                        <div class="project-media">
+                            <img src="purple.png" alt="Text-Based Escape Room Game" loading="lazy">
+                        </div>
+                        <div class="project-overlay">
+                            <h3>Text-Based Escape Room</h3>
+                            <p>Java OOP game featuring puzzle mechanics with inheritance and encapsulation.</p>
+                            <span class="project-cta">Open project →</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" aria-labelledby="about-title">
+        <h2 id="about-title">About Me</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+             I'm Thuy-Vy (Twee-Vee) Tran. I'm a junior at Columbia University studying Computer Science and Economics. I'm interested in software development, and learning about new technologies. Currently, I'm working 
+             as a Systems Infastructure Intern at Columbia University Department of Computer Science. 
+            </p>
+          </div>
+          <div class="about-photo">
+            <img src="profile.png" alt="Photo of Thuy Vy Tran" />
+          </div>
+        </div>
+      </section>
+
+    <section id="skills" class="section">
+        <h2>Skills & Expertise</h2>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <i class="fab fa-python skill-icon"></i>
+                <div class="skill-name">Python</div>
+                <div class="skill-desc">Programming Language</div>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-java skill-icon"></i>
+                <div class="skill-name">Java</div>
+                <div class="skill-desc">Object-Oriented Programming</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-code-branch skill-icon"></i>
+                <div class="skill-name">C++</div>
+                <div class="skill-desc">Object-Oriented Programming</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-code skill-icon"></i>
+                <div class="skill-name">C#</div>
+                <div class="skill-desc">Microsoft Development</div>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-html5 skill-icon"></i>
+                <div class="skill-name">HTML/CSS</div>
+                <div class="skill-desc">Web Development</div>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-js-square skill-icon"></i>
+                <div class="skill-name">JavaScript</div>
+                <div class="skill-desc">Frontend Development</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-microchip skill-icon"></i>
+                <div class="skill-name">C</div>
+                <div class="skill-desc">Systems Programming</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-gamepad skill-icon"></i>
+                <div class="skill-name">Unity</div>
+                <div class="skill-desc">Game Development</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-file-alt skill-icon"></i>
+                <div class="skill-name">LaTeX</div>
+                <div class="skill-desc">Document Preparation</div>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-git-alt skill-icon"></i>
+                <div class="skill-name">Git</div>
+                <div class="skill-desc">Version Control</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-chart-line skill-icon"></i>
+                <div class="skill-name">NumPy/Matplotlib</div>
+                <div class="skill-desc">Data Visualization</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-table skill-icon"></i>
+                <div class="skill-name">Pandas</div>
+                <div class="skill-desc">Data Analysis</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-coffee skill-icon"></i>
+                <div class="skill-name">NetBeans</div>
+                <div class="skill-desc">IDE</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-flask skill-icon"></i>
+                <div class="skill-name">Flask</div>
+                <div class="skill-desc">Web Framework</div>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-bootstrap skill-icon"></i>
+                <div class="skill-name">Bootstrap</div>
+                <div class="skill-desc">CSS Framework</div>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-react skill-icon"></i>
+                <div class="skill-name">React</div>
+                <div class="skill-desc">Frontend Library</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-bolt skill-icon"></i>
+                <div class="skill-name">Next.js</div>
+                <div class="skill-desc">React Framework</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-server skill-icon"></i>
+                <div class="skill-name">Express</div>
+                <div class="skill-desc">Node.js Framework</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-database skill-icon"></i>
+                <div class="skill-name">Supabase</div>
+                <div class="skill-desc">Backend & Auth</div>
+            </div>
+            <div class="skill-item">
+                <i class="fab fa-figma skill-icon"></i>
+                <div class="skill-name">Figma</div>
+                <div class="skill-desc">Design Tool</div>
+            </div>
+            <div class="skill-item">
+                <i class="fas fa-leaf skill-icon"></i>
+                <div class="skill-name">MongoDB</div>
+                <div class="skill-desc">NoSQL Database</div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="experience" class="section">
+        <h2>Experience</h2>
+        <div class="timeline">
+            <div class="job">
+                <div class="job-date">May 2025 – Present</div>
+                <h3>Systems Infrastructure Intern</h3>
+                <span>Columbia University Computer Science | Manhattan, NY</span>
+                <ul>
+                    <li>Deployed backend dashboards monitoring 15,000+ data points/hour, optimizing server health tracking across 25+ distributed research machines via automation.</li>
+                    <li>Developed web-based system health tools and automated power usage tracking across 25+ distributed research servers.</li>
+                    <li>Collaborated with systems administrators to optimize infrastructure reliability, reducing manual ops by 40%.</li>
+                </ul>
+                <p><strong>Tech:</strong> Python, GitLab, Linux, Docker</p>
+            </div>
+
+            <div class="job">
+                <div class="job-date">Sept 2024 - May 2025</div>
+                <h3>Multimedia Assistant</h3>
+                <span>Columbia University School of Social Work | Manhattan, NY</span>
+                <li> Provided technical support to professors, troubleshooting monitors, computers, and classroom technology setups.</li>
+                <li>Managed help desk operations, fielding phone calls for tech issues and resolving them efficiently.</li>
+                <li>Maintained and secured tech equipment, including projectors and computers, ensuring proper functionality and closing procedures.</li>
+            </div>
+            <div class="job">
+                <div class="job-date">June 2024 – August 2024</div>
+                <h3>Student Leader</h3>
+                <span>Columbia Summer Engineering Program | Manhattan, NY</span>
+                <ul>
+                    <li>Assisted teaching competitive programming in Python, Java, and C++ to 20+ high school students across a 6-week program, improving problem-solving skills through 40+ coding challenges.</li>
+                    <li>Supported Data Science course for 15+ students, facilitating hands-on learning of Python libraries (pandas, NumPy) through 10+ data analysis projects and real-world datasets.</li>
+                </ul>
+                <p><strong>Tech:</strong> Python, pandas, NumPy, C++, Unity, C#</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="contact-wrap">
+            <nav class="contact-links" aria-label="Footer">
+                <a href="#projects">Project</a>
+                <a href="#about">About</a>
+                <a href="#skills">Experience</a>
+                <a href="https://www.linkedin.com/in/thuy-vy-tran-876390288/">Connect</a>
+            </nav>
+            <div class="contact-cta">
+                <a class="btn-pill" href="https://www.linkedin.com/in/thuy-vy-tran-876390288/">Connect with me <span class="arrow">→</span></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Thuy Vy Tran</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section, .card').forEach(el => observer.observe(el));
+
+        // Background blobs follow mouse
+        const blob1 = document.querySelector('.blob1');
+        const blob2 = document.querySelector('.blob2');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 40;
+            const y = (e.clientY / window.innerHeight - 0.5) * 40;
+
+            blob1.style.transform = `translate(${x}px, ${y}px)`;
+            blob2.style.transform = `translate(${-x}px, ${-y}px)`;
+        });
+
+        // Projects horizontal scroll driven by vertical scroll
+        const projectsScroll = document.querySelector('.projects-scroll');
+        const projectsTrack = document.querySelector('.projects-track');
+        if (projectsScroll && projectsTrack) {
+            const numSlides = projectsTrack.children.length;
+            let currentIndex = 0;
+            let isAnimating = false;
+            let lastSlideAt = 0;
+            let wheelAccumulator = 0;
+            const COOLDOWN_MS = 700;
+            const WHEEL_THRESHOLD = 120; // typical mouse wheel step per notch
+
+            // Set scroll height to one viewport per slide
+            projectsScroll.style.height = `${numSlides * 100}vh`;
+
+            const setTransform = () => {
+                projectsTrack.style.transform = `translateX(${-currentIndex * window.innerWidth}px)`;
+            };
+
+            const isActive = () => {
+                const rect = projectsScroll.getBoundingClientRect();
+                return rect.top <= 0 && rect.bottom >= window.innerHeight;
+            };
+
+            const goTo = (index) => {
+                const clamped = Math.max(0, Math.min(numSlides - 1, index));
+                if (clamped === currentIndex || isAnimating) return false;
+                isAnimating = true;
+                currentIndex = clamped;
+                setTransform();
+                // Align window scroll to the corresponding snap point inside the projects area
+                const rect = projectsScroll.getBoundingClientRect();
+                const docTop = window.scrollY + rect.top;
+                const target = docTop + currentIndex * window.innerHeight;
+                window.scrollTo({ top: target, behavior: 'smooth' });
+                // Unlock after CSS transition (~550ms) plus buffer
+                setTimeout(() => { isAnimating = false; }, 650);
+                return true;
+            };
+
+            const onWheel = (e) => {
+                if (!isActive()) return;
+                const now = Date.now();
+                if (isAnimating || now - lastSlideAt < COOLDOWN_MS) return;
+                const direction = Math.sign(e.deltaY);
+                // If at first or last slide, let scroll pass through (no preventDefault)
+                if ((currentIndex === 0 && direction < 0) || (currentIndex === numSlides - 1 && direction > 0)) {
+                    return;
+                }
+                // Within bounds, manage one-slide snapping
+                e.preventDefault();
+                wheelAccumulator += e.deltaY;
+                if (Math.abs(wheelAccumulator) >= WHEEL_THRESHOLD) {
+                    const dir = Math.sign(wheelAccumulator);
+                    wheelAccumulator = 0;
+                    const moved = dir > 0 ? goTo(currentIndex + 1) : goTo(currentIndex - 1);
+                    if (moved) lastSlideAt = now;
+                }
+            };
+
+            // Touch swipe (vertical): one swipe = one slide
+            let touchStartY = null;
+            const TOUCH_THRESHOLD = 30; // px
+            const onTouchStart = (e) => { if (isActive()) touchStartY = e.touches[0].clientY; };
+            const onTouchMove = (e) => {
+                if (touchStartY == null || !isActive()) return;
+                const deltaY = e.touches[0].clientY - touchStartY;
+                if (Math.abs(deltaY) > TOUCH_THRESHOLD && !isAnimating) {
+                    // Allow vertical page scroll when at bounds
+                    if (deltaY > 0 && currentIndex === 0) return; // swipe down on first -> scroll up page
+                    if (deltaY < 0 && currentIndex === numSlides - 1) return; // swipe up on last -> scroll down page
+                    if (deltaY < 0) {
+                        if (goTo(currentIndex + 1)) e.preventDefault();
+                    } else {
+                        if (goTo(currentIndex - 1)) e.preventDefault();
+                    }
+                    touchStartY = null;
+                }
+            };
+            const onTouchEnd = () => { touchStartY = null; };
+
+            // Keyboard support
+            const onKeyDown = (e) => {
+                if (!isActive()) return;
+                if (["ArrowDown", "PageDown", " ", "Enter"].includes(e.key)) {
+                    if (goTo(currentIndex + 1)) e.preventDefault();
+                } else if (["ArrowUp", "PageUp"].includes(e.key)) {
+                    if (goTo(currentIndex - 1)) e.preventDefault();
+                }
+            };
+
+            const projectsArea = document.querySelector('.projects-sticky');
+            if (projectsArea) {
+                projectsArea.addEventListener('wheel', onWheel, { passive: false });
+                projectsArea.addEventListener('touchstart', onTouchStart, { passive: true });
+                projectsArea.addEventListener('touchmove', onTouchMove, { passive: false });
+                projectsArea.addEventListener('touchend', onTouchEnd, { passive: true });
+            }
+            window.addEventListener('keydown', onKeyDown, { passive: false });
+
+            // Initialize
+            setTransform();
+            window.addEventListener('resize', setTransform);
+        }
+    </script>
+</body>
+</html>
