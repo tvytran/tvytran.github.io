@@ -128,8 +128,9 @@
             display: flex;
             height: 100%;
             width: 300vw; /* 3 slides */
-            transform: translateX(0);
+            transform: translate3d(0,0,0);
             transition: transform 0.55s ease;
+            will-change: transform;
         }
         .projects-intro {
             text-align: center;
@@ -170,6 +171,14 @@
         .project-overlay h3 { margin: 0 0 0.5rem 0; }
         .project-overlay p { margin: 0 0 0.5rem 0; }
         .project-cta { opacity: 0.9; }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .blob, .section, .card, .projects-track { animation: none !important; transition: none !important; }
+        }
+
+        html { scroll-behavior: auto; }
+        body { overscroll-behavior: contain; }
 
         /* Project slide border/frame */
         .project-slide { position: relative; }
@@ -553,6 +562,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><a href="https://github.com/tvytran" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             </ul>
         </nav>
     </header>
@@ -565,7 +575,7 @@
                 <div class="projects-track">
                     <a class="project-slide" href="https://vsacolumbia.com" target="_blank" rel="noopener noreferrer">
                         <div class="project-media">
-                            <img src="vsa.png" alt="VSA Website" loading="lazy">
+                            <img src="vsa.png" alt="VSA Website" loading="lazy" width="1200" height="675">
                         </div>
                         <div class="project-overlay">
                             <h3>VSA Website</h3>
@@ -575,7 +585,7 @@
                     </a>
                     <a class="project-slide" href="https://ui-design-plants.vercel.app/" target="_blank" rel="noopener noreferrer">
                         <div class="project-media">
-                            <img src="plants.png" alt="Interactive Plant Learning" loading="lazy">
+                            <img src="plants.png" alt="Interactive Plant Learning" loading="lazy" width="1200" height="675">
                         </div>
                         <div class="project-overlay">
                             <h3>Interactive Plant Learning</h3>
@@ -585,7 +595,7 @@
                     </a>
                     <a class="project-slide" href="https://github.com/tvytran/BobaEscapeGame" target="_blank" rel="noopener noreferrer">
                         <div class="project-media">
-                            <img src="purple.png" alt="Text-Based Escape Room Game" loading="lazy">
+                            <img src="purple.png" alt="Text-Based Escape Room Game" loading="lazy" width="1200" height="675">
                         </div>
                         <div class="project-overlay">
                             <h3>Text-Based Escape Room</h3>
@@ -768,6 +778,7 @@
                 <a href="#about">About</a>
                 <a href="#skills">Experience</a>
                 <a href="https://www.linkedin.com/in/thuy-vy-tran-876390288/">Connect</a>
+                <a href="https://github.com/tvytran" target="_blank" rel="noopener noreferrer">GitHub</a>
             </nav>
             <div class="contact-cta">
                 <a class="btn-pill" href="https://www.linkedin.com/in/thuy-vy-tran-876390288/">Connect with me <span class="arrow">→</span></a>
@@ -822,8 +833,8 @@
             let isAnimating = false;
             let lastSlideAt = 0;
             let wheelAccumulator = 0;
-            const COOLDOWN_MS = 700;
-            const WHEEL_THRESHOLD = 120; // typical mouse wheel step per notch
+            const COOLDOWN_MS = 900;
+            const WHEEL_THRESHOLD = 240; // typical mouse wheel step per notch
 
             // Set scroll height to one viewport per slide
             projectsScroll.style.height = `${numSlides * 100}vh`;
@@ -875,7 +886,7 @@
 
             // Touch swipe (vertical): one swipe = one slide
             let touchStartY = null;
-            const TOUCH_THRESHOLD = 30; // px
+            const TOUCH_THRESHOLD = 60; // px
             const onTouchStart = (e) => { if (isActive()) touchStartY = e.touches[0].clientY; };
             const onTouchMove = (e) => {
                 if (touchStartY == null || !isActive()) return;
