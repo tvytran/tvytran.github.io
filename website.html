@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libertinus+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,13 +15,28 @@
             --primary-alt: #d0eaff;
             --white: #ffffff;
             --text: #333333;
+            /* Minecraft-like palette */
+            --mc-grass: #6aa84f;
+            --mc-dirt: #7f5f3f;
+            --mc-sky: #9bd3ff;
+            --mc-ui: #3c8527;
+            --mc-ui-dark: #2b601c;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Libertinus Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--white);
+            font-family: 'Press Start 2P', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--mc-sky);
             color: var(--text);
             overflow-x: hidden;
+        }
+        /* Pixel rendering and blocky vibe */
+        img, canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
+        /* Sky/ground banding */
+        body::after{
+            content:""; position:fixed; left:0; right:0; bottom:0; height:18vh; z-index:-1;
+            background: repeating-linear-gradient(
+                0deg, var(--mc-grass), var(--mc-grass) 6px, var(--mc-dirt) 6px, var(--mc-dirt) 12px
+            );
         }
         /* Background blobs */
         .background-blobs {
@@ -167,6 +183,7 @@
             background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0));
             color: #fff;
             z-index: 2;
+            text-shadow: 2px 2px 0 #000;
         }
         .project-overlay h3 { margin: 0 0 0.5rem 0; }
         .project-overlay p { margin: 0 0 0.5rem 0; }
@@ -187,11 +204,11 @@
             position: relative;
             width: var(--project-w);
             height: var(--project-h);
-            border-radius: 12px;
+            border-radius: 0;
             overflow: hidden;
-            transition: transform 0.4s ease;
-            box-shadow: 0 0 24px rgba(167,216,247,0.35);
-            border: 4px solid rgba(167, 216, 247, 0.95);
+            transition: transform .05s steps(1, end);
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
         }
         /* Ensure Skills slides up and covers Projects */
         #skills.section {
@@ -263,11 +280,12 @@
         }
         .card {
             display: block;
-            background: var(--white);
-            border-radius: 12px;
+            background: #cfeccb; /* light grassy panel */
+            border-radius: 0;
             padding: 1.25rem;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border: 4px solid #000;
+            box-shadow: 6px 6px 0 #000;
+            transition: transform .05s steps(1, end), box-shadow .05s steps(1, end);
             opacity: 0;
             transform: translateY(30px);
             text-decoration: none;
@@ -277,15 +295,14 @@
         .card.visible {
             opacity: 1;
             transform: translateY(0);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.3s steps(1, end), transform 0.3s steps(1, end);
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08),
-                        0 0 25px var(--primary-alt);
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 #000;
         }
         .card:focus-visible {
-            outline: 3px solid var(--primary);
+            outline: 4px solid #000;
             outline-offset: 4px;
         }
         /* Project card screenshot */
@@ -427,17 +444,18 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: #fff;
-            color: #000;
-            border-radius: 9999px;
+            background: var(--mc-ui);
+            color: #fff;
+            border-radius: 0;
             padding: 0.6rem 1rem 0.6rem 0.9rem;
             font-weight: 700;
             font-size: 0.95rem;
             text-decoration: none;
-            box-shadow: 0 10px 24px rgba(255,255,255,0.06);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 4px solid #000;
+            box-shadow: 6px 6px 0 #000;
+            transition: transform .05s steps(1,end), box-shadow .05s steps(1,end);
         }
-        .contact-cta .btn-pill:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(255,255,255,0.10); }
+        .contact-cta .btn-pill:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 #000; background: var(--mc-ui-dark); }
         .contact-cta .arrow { display:inline-block; transform: translateX(0); transition: transform 0.2s ease; }
         .contact-cta .btn-pill:hover .arrow { transform: translateX(3px); }
 
@@ -738,6 +756,17 @@
     <section id="experience" class="section">
         <h2>Experience</h2>
         <div class="timeline">
+            <div class="job">
+                <div class="job-date">December 2025 – Present</div>
+                <h3>Frontend Developer</h3>
+                <span>Crackd.ai (Humor Project) | Remote</span>
+                <ul>
+                    <li>Developed frontend infrastructure for AI-powered image captioning platform with responsive UI components and real-time caption generation through large language models.</li>
+                    <li>Built automated content delivery pipeline supporting 3+ weekly social media posts with caption generation, quality filtering, and multi-platform distribution.</li>
+                    <li>Evaluated and refined LLM joke generation mechanisms, providing technical feedback on prompt engineering to improve caption quality for Gen‑Z audiences.</li>
+                </ul>
+                <p><strong>Tech:</strong> React, TypeScript, LLM Integration, Next.js</p>
+            </div>
             <div class="job">
                 <div class="job-date">May 2025 – Present</div>
                 <h3>Systems Infrastructure Intern</h3>
