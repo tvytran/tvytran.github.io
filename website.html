@@ -33,10 +33,8 @@
         img, canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
         /* Sky/ground banding */
         body::after{
-            content:""; position:fixed; left:0; right:0; bottom:0; height:18vh; z-index:-1;
-            background: repeating-linear-gradient(
-                0deg, var(--mc-grass), var(--mc-grass) 6px, var(--mc-dirt) 6px, var(--mc-dirt) 12px
-            );
+            /* remove ground stripes */
+            display: none;
         }
         /* Background blobs */
         .background-blobs {
@@ -67,17 +65,7 @@
             50% { background: var(--primary-alt); }
         }
         /* Header */
-        header {
-            background: transparent;
-            backdrop-filter: none;
-            padding: 1rem 2rem;
-            box-shadow: none;
-            position: fixed; /* overlay header so section starts at very top */
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 10;
-        }
+        header { display: none; }
         nav {
             display: flex;
             justify-content: center;
@@ -127,6 +115,8 @@
             max-width: 100vw; /* full-bleed */
             margin: 0;        /* remove centered container margins */
         }
+        /* Hide old slider when using Minecraft-style list */
+        #projects .projects-scroll { display: none; }
         .projects-scroll {
             height: 300vh; /* scroll length controlling the horizontal movement */
             position: relative;
@@ -194,6 +184,101 @@
             .blob, .section, .card, .projects-track { animation: none !important; transition: none !important; }
         }
 
+        /* Minecraft "Select World" styled Projects list */
+        .worlds-panel {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 1.25rem;
+        }
+        .worlds-title {
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 0 #000;
+            font-size: 1.25rem;
+            background: rgba(0,0,0,0.75);
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            padding: 0.8rem 1rem;
+            width: min(680px, 90%);
+            margin: 0 auto 1.25rem;
+        }
+        .worlds-list {
+            background: rgba(0,0,0,0.35);
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            padding: 0.5rem;
+            height: 58vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        /* Custom scrollbar to mimic Minecraft UI */
+        .worlds-list::-webkit-scrollbar { width: 14px; }
+        .worlds-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.35); border-left: 4px solid #000; }
+        .worlds-list::-webkit-scrollbar-thumb { background: #111; border: 4px solid #000; }
+        .world-item {
+            display: grid;
+            grid-template-columns: 104px 1fr;
+            gap: 14px;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            background: rgba(255,255,255,0.9);
+            border: 4px solid #000;
+            box-shadow: 6px 6px 0 #000;
+            padding: 10px 12px;
+            margin: 10px 6px;
+            cursor: pointer;
+            transition: transform .05s steps(1, end), box-shadow .05s steps(1, end), background .1s steps(1,end);
+        }
+        .world-item:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 #000; }
+        .world-item.selected { background: #d7f0ff; outline: 4px solid #000; }
+        .world-thumb {
+            width: 104px; height: 78px;
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            overflow: hidden;
+            background: #bcdcff;
+        }
+        .world-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .world-meta { display: grid; gap: 6px; }
+        .world-title { font-size: 1rem; color: #111; }
+        .world-sub { font-size: 0.8rem; color: #333; opacity: 0.9; }
+        .world-version { font-size: 0.8rem; color: #c22; }
+        .worlds-actions {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            align-items: center;
+        }
+        .worlds-actions-secondary {
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            gap: 0.75rem;
+            justify-content: end;
+            align-items: center;
+        }
+        /* Ensure Minecraft font on projects list */
+        .worlds-panel, .worlds-panel * { font-family: 'Press Start 2P', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        .mc-btn {
+            background: #c6c6c6;
+            border: 4px solid #000;
+            box-shadow: 6px 6px 0 #000;
+            color: #111;
+            padding: 0.8rem 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform .05s steps(1,end), box-shadow .05s steps(1,end);
+        }
+        .mc-btn:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 #000; }
+        .mc-btn:disabled,
+        .mc-btn.disabled { opacity: 0.5; pointer-events: none; }
+        .mc-btn-primary {
+            background: #b7d7f4;
+        }
+
         html { scroll-behavior: auto; }
         body { overscroll-behavior: contain; }
 
@@ -253,6 +338,76 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Home menu screen */
+        .menu-screen {
+            display: grid;
+            place-items: center;
+            padding: 3rem 1rem;
+        }
+        .menu-panel {
+            width: min(700px, 92vw);
+            background: rgba(0,0,0,0.55);
+            border: 4px solid #000;
+            box-shadow: 10px 10px 0 #000;
+            padding: 1.25rem 1rem 1rem;
+            color: #fff;
+            text-align: center;
+        }
+        .menu-title {
+            font-size: 1.25rem;
+            text-shadow: 2px 2px 0 #000;
+            margin-bottom: 1rem;
+        }
+        .menu-list {
+            display: grid;
+            gap: 0.8rem;
+            justify-items: center;
+        }
+        .menu-btn {
+            width: min(420px, 88%);
+            background: #c6c6c6;
+            border: 4px solid #000;
+            box-shadow: 6px 6px 0 #000;
+            color: #111;
+            padding: 0.9rem 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform .05s steps(1,end), box-shadow .05s steps(1,end);
+        }
+        .menu-btn:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 #000; }
+        /* Page-view mode: show one section per "page" using hash routing */
+        body.page-view .section {
+            position: relative;
+            top: auto;
+            min-height: 90vh;
+            display: none;
+            opacity: 1; /* no fade-in when swapping pages */
+            transform: none;
+        }
+        body.page-view .section.is-current { display: block; }
+
+        /* Global back button */
+        .mc-back {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 20;
+            background: #c6c6c6;
+            border: 4px solid #000;
+            box-shadow: 6px 6px 0 #000;
+            color: #111;
+            padding: 0.6rem 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform .05s steps(1,end), box-shadow .05s steps(1,end);
+        }
+        .mc-back:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 #000; }
         h2 {
             margin-bottom: 1.5rem;
             color: var(--primary);
@@ -356,78 +511,271 @@
             }
         }
 
-        /* Experience timeline */
-        .timeline {
-            --line-offset: 16px; /* distance from section edge to vertical line */
-            --date-width: 180px; /* width allocated for left-side dates */
+        /* Experience timeline styled as a Minecraft mine shaft */
+        .timeline.mineshaft {
             position: relative;
-            padding-left: calc(var(--line-offset) + 24px);
+            padding-left: 120px;
             margin-top: 1rem;
         }
-        .timeline::before {
+        /* Ladder at left */
+        .timeline.mineshaft::before {
             content: '';
             position: absolute;
             top: 0;
             bottom: 0;
-            left: var(--line-offset);
-            width: 2px;
-            background: rgba(167, 216, 247, 0.8);
+            left: 40px;
+            width: 40px;
+            background:
+              linear-gradient(#8b5a2b,#8b5a2b) left/8px 100% no-repeat,
+              linear-gradient(#8b5a2b,#8b5a2b) right/8px 100% no-repeat,
+              repeating-linear-gradient(#c89b5a 0 8px, transparent 8px 28px) center/100% 100% no-repeat;
+            box-shadow: inset 0 0 0 3px #000;
         }
+        /* Each level (job) is a pixel box */
         .job {
             position: relative;
-            margin-bottom: 1.75rem;
-            padding-left: 0.25rem;
+            margin: 20px 0 28px;
+            padding: 14px 16px 14px 16px;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            border-radius: 0;
+            background: #e7e7e7;
         }
         .job-date {
             position: absolute;
-            top: 0;
-            left: calc(-24px - 12px - var(--date-width));
-            width: var(--date-width);
-            text-align: right;
-            color: #667085;
-            font-size: 0.95rem;
-            line-height: 1.2;
+            top: -14px;
+            left: -4px;
+            background: #000;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 12px;
+            border: 2px solid #000;
         }
-        .job::before {
-            content: '';
-            position: absolute;
-            top: 0.5rem;
-            left: calc(-24px - 6px); /* align marker to line; 24px padding gap + half dot width */
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--primary);
-            border: 3px solid #fff;
-            box-shadow: 0 0 0 2px rgba(167, 216, 247, 0.5);
-        }
+        /* Biome themes */
+        .biome-forest { background: #cfeccb; }
+        .biome-end { background: #e3d6ff; }
+        .biome-stone { background: #d8d8d8; }
+        .biome-desert { background: #f5efcf; }
+        .job h3 { margin: 0 0 6px 0; }
+        .job span { display: block; color: #4a4a4a; font-size: 0.95rem; margin-bottom: 8px; }
         .job h3 {
             margin: 0 0 4px 0;
-        }
-        .job span {
-            display: block;
-            color: #667085;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
         }
         .job ul {
             margin: 0 0 8px 1rem;
         }
         .job p { margin: 0; }
         @media (max-width: 640px) {
-            .timeline {
-                --line-offset: 12px;
-                padding-left: calc(var(--line-offset) + 22px);
-            }
-            .job-date {
-                position: static;
-                width: auto;
-                text-align: left;
-                margin-bottom: 6px;
-            }
-            .job::before {
-                left: calc(-22px - 6px);
-            }
+            .timeline.mineshaft { padding-left: 92px; }
+            .timeline.mineshaft::before { left: 28px; width: 36px; }
+            .job-date { position: static; display: inline-block; margin-bottom: 6px; }
         }
+
+        /* Experience map (Minecraft cartography style) */
+        .map-wrap {
+            position: relative;
+            height: 70vh;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            overflow: hidden;
+            background: var(--mc-sky, #9bd3ff);
+            margin-top: 0.75rem;
+        }
+        /* Parchment-style frame around the map (outside only, keep center visible) */
+        .map-wrap{ outline: 18px solid #e7d9a6; outline-offset: 6px; }
+        .map-inner {
+            position: absolute;
+            inset: 0;
+            transform-origin: center;
+            transform: scale(1);
+            transition: transform .15s steps(1,end);
+            background: transparent;
+            image-rendering: pixelated;
+            z-index: 0;
+        }
+        .map-canvas{ position:absolute; inset:0; width:100%; height:100%; image-rendering: pixelated; }
+        /* Dirt path drawn over the map */
+        .map-path{ position:absolute; inset:0; pointer-events:none; z-index: 1; }
+        .map-path path{
+            stroke:#7f5f3f; stroke-width:6; fill:none;
+            stroke-linecap:round; stroke-linejoin:round; 
+            shape-rendering: crispEdges;
+            filter: drop-shadow(1px 1px 0 #000);
+        }
+        /* Houses (little bases on the road) */
+        .house{
+            position:absolute; width:28px; height:24px;
+            background:#d6c08f; border:3px solid #000; box-shadow:4px 4px 0 #000;
+            z-index: 1;
+        }
+        .house::before{
+            content:""; position:absolute; left:-3px; right:-3px; top:-10px; height:12px;
+            background:#8b5a2b; border:3px solid #000; border-bottom:0;
+        }
+        .marker {
+            position: absolute;
+            width: 12px; height: 22px;
+            border: 3px solid #000;
+            background:#111;
+            box-shadow: 4px 4px 0 #000;
+            border-radius: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .marker::after{
+            /* banner pole */
+            content:''; position:absolute; left:50%; transform:translateX(-50%);
+            bottom:-10px; width: 3px; height: 10px; background:#000;
+        }
+        .marker:focus-visible { outline: 3px solid #000; outline-offset: 2px; }
+        .marker--forest { background:#1e6d24; }
+        .marker--end { background:#5b4bc9; }
+        .marker--stone { background:#6f6f6f; }
+        .marker--desert { background:#c8a96a; }
+        .map-controls {
+            position: absolute;
+            right: 8px; top: 8px;
+            display: flex; flex-direction: column; gap: 8px;
+            z-index: 2;
+        }
+        .map-zoom {
+            width: 40px; height: 40px;
+            background: #fff;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .detail-panel {
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            background: #ffffff;
+            border-top: 4px solid #000;
+            box-shadow: 0 -8px 0 #000;
+            max-height: 40%;
+            overflow: auto;
+            padding: 12px 16px;
+            display: none;
+            z-index: 3;
+        }
+        .detail-panel.active { display:block; }
+        /* Hands holding the map */
+        .hands{ position:absolute; left:0; right:0; bottom:-6px; display:flex; justify-content:space-between; padding:0 24px; z-index: 1; pointer-events:none; }
+        .hand{ width:120px; height:80px; background:#e2b59a; border:4px solid #000; box-shadow:6px 6px 0 #000; }
+        /* Player pointer (white dot) */
+        .player-dot{ position:absolute; width:10px; height:10px; background:#fff; border:3px solid #000; border-radius:50%; box-shadow:2px 2px 0 #000; z-index:2; }
+
+        /* Book pages experience style */
+        .book-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .book {
+            position: relative;
+            padding: 2.25rem 2rem;
+            border: 4px solid #3a2b16;
+            background:
+                linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0) 14%, rgba(0,0,0,0) 86%, rgba(0,0,0,0.06)),
+                linear-gradient(#f5ead2, #ead9ba);
+            box-shadow: 8px 8px 0 #000;
+            font-family: 'Press Start 2P', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+        }
+        .book::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 50%;
+            width: 3px;
+            background: #bfa277;
+            box-shadow: -1px 0 0 #8e6c40, 1px 0 0 #8e6c40;
+        }
+        .spread {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        /* Pagination: one spread visible at a time */
+        .book .spread { display: none; }
+        .book .spread.is-active { display: grid; }
+        .book .spread.animate-in-left { animation: fadeIn 300ms ease forwards; }
+        .book .spread.animate-in-right { animation: fadeIn 300ms ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page {
+            position: relative;
+            background:
+                linear-gradient(0deg, rgba(255,255,255,0.15), rgba(255,255,255,0) 45%),
+                linear-gradient(#f6edd7, #efe0bf);
+            border: 2px solid #8e6c40;
+            padding: 1.6rem 1.8rem;
+            box-shadow: 6px 6px 0 #000, 0 10px 18px rgba(0,0,0,0.18);
+            font-size: 1.1rem;
+        }
+        .page.left::after, .page.right::after{
+            content:'';
+            position:absolute; top:0; bottom:0; width:38px;
+            pointer-events:none;
+        }
+        .page.left::after{ right:-3px; background: linear-gradient(90deg, rgba(0,0,0,0.18), rgba(0,0,0,0) 70%); }
+        .page.right::after{ left:-3px; background: linear-gradient(270deg, rgba(0,0,0,0.18), rgba(0,0,0,0) 70%); }
+        .book h3 {
+            margin: 0 0 6px 0;
+            color: #2b2b2b;
+            font-weight: 700;
+            font-size: 1.9rem;
+        }
+        .entry {
+            margin-bottom: 1.25rem;
+        }
+        .entry-head {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            border-bottom: 2px solid #c7ad83;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+        }
+        .entry-date {
+            font-size: 0.9rem;
+            color: #6b5537;
+            white-space: nowrap;
+        }
+        .entry ul {
+            margin-left: 1.2rem;
+            line-height: 1.45;
+        }
+        .entry-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2b2b2b;
+        }
+        .entry-meta {
+            font-size: 0.9rem;
+            color: #6b5537;
+        }
+        .book-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .page-btn {
+            background: #fff;
+            border: 3px solid #3a2b16;
+            box-shadow: 6px 6px 0 #000;
+            padding: 0.55rem 1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        /* Make experience pages taller so content fits comfortably */
+        #experience.section {
+            position: relative;
+            min-height: auto;
+            padding: 3rem 2rem;
+        }
+        .page { height: 65vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 
         /* Contact (last section) — follow alternating theme */
         #contact.section::before { background: var(--primary-alt); }
@@ -558,75 +906,77 @@
     }
 
         footer {
-            background: rgba(167, 216, 247, 0.3);
+            background: transparent;
             text-align: center;
-            padding: 1rem;
-            margin-top: 2rem;
-            font-size: 0.9rem;
+            padding: 0.4rem 0;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: inherit; /* match current page text color */
+            border: 0;      /* no top border strip */
+            opacity: 0.85;
         }
     </style>
 </head>
 <body>
+    <button id="backBtn" class="mc-back" aria-label="Go back">← Back</button>
     <div class="background-blobs">
         <div class="blob blob1"></div>
         <div class="blob blob2"></div>
     </div>
 
-    <header>
-        <nav>
-            <h1 class="logo">Thuy Vy Tran</h1>
-            <ul>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="https://github.com/tvytran" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-            </ul>
-        </nav>
-    </header>
-
+    <header></header>
 
     <section id="projects" class="section projects-section">
 
-        <div class="projects-scroll">
-            <div class="projects-sticky">
-                <div class="projects-track">
-                    <a class="project-slide" href="https://vsacolumbia.com" target="_blank" rel="noopener noreferrer">
-                        <div class="project-media">
-                            <img src="vsa.png" alt="VSA Website" loading="lazy" width="1200" height="675">
+        <div class="projects-scroll"></div>
+
+        <div class="worlds-panel">
+            <div class="worlds-title">Select Project</div>
+            <div class="worlds-list" id="worldsList">
+                <button type="button" class="world-item selected" data-href="https://vsacolumbia.com">
+                    <span class="world-thumb">
+                        <img src="vsa.png" alt="VSA Website thumbnail" loading="lazy" width="200" height="120">
+                    </span>
+                    <span class="world-meta">
+                        <span class="world-title">VSA Website</span>
+                        <span class="world-sub">Full‑stack site for 100+ students • Live</span>
+                        <span class="world-version">Stack: Next.js, Supabase</span>
+                    </span>
+                </button>
+                <button type="button" class="world-item" data-href="https://ui-design-plants.vercel.app/">
+                    <span class="world-thumb">
+                        <img src="plants.png" alt="Interactive Plant Learning thumbnail" loading="lazy" width="200" height="120">
+                    </span>
+                    <span class="world-meta">
+                        <span class="world-title">Interactive Plant Learning</span>
+                        <span class="world-sub">Placement quiz + instant feedback</span>
+                        <span class="world-version">Stack: React</span>
+                    </span>
+                </button>
+                <button type="button" class="world-item" data-href="https://github.com/tvytran/BobaEscapeGame">
+                    <span class="world-thumb">
+                        <img src="purple.png" alt="Text-Based Escape Room thumbnail" loading="lazy" width="200" height="120">
+                    </span>
+                    <span class="world-meta">
+                        <span class="world-title">Text‑Based Escape Room</span>
+                        <span class="world-sub">Java OOP puzzle mechanics</span>
+                        <span class="world-version">Stack: Java</span>
+                    </span>
+                </button>
                         </div>
-                        <div class="project-overlay">
-                            <h3>VSA Website</h3>
-                            <p>Full-stack app for 100+ students with secure auth, role-based access, and real-time family leaderboards.</p>
-                            <span class="project-cta">Open project →</span>
+            <div class="worlds-actions">
+                <button class="mc-btn mc-btn-primary" id="openProjectBtn">Open Selected Project</button>
+                <div class="worlds-actions-secondary">
+                    <button class="mc-btn mc-btn-secondary disabled" aria-disabled="true">Edit</button>
+                    <button class="mc-btn mc-btn-secondary disabled" aria-disabled="true">Delete</button>
+                    <button class="mc-btn mc-btn-secondary disabled" aria-disabled="true">Re‑Create</button>
+                    <a class="mc-btn mc-btn-secondary" href="#about">Back</a>
                         </div>
-                    </a>
-                    <a class="project-slide" href="https://ui-design-plants.vercel.app/" target="_blank" rel="noopener noreferrer">
-                        <div class="project-media">
-                            <img src="plants.png" alt="Interactive Plant Learning" loading="lazy" width="1200" height="675">
-                        </div>
-                        <div class="project-overlay">
-                            <h3>Interactive Plant Learning</h3>
-                            <p>Educational web app with placement quiz and instant feedback across room environments.</p>
-                            <span class="project-cta">Open project →</span>
-                        </div>
-                    </a>
-                    <a class="project-slide" href="https://github.com/tvytran/BobaEscapeGame" target="_blank" rel="noopener noreferrer">
-                        <div class="project-media">
-                            <img src="purple.png" alt="Text-Based Escape Room Game" loading="lazy" width="1200" height="675">
-                        </div>
-                        <div class="project-overlay">
-                            <h3>Text-Based Escape Room</h3>
-                            <p>Java OOP game featuring puzzle mechanics with inheritance and encapsulation.</p>
-                            <span class="project-cta">Open project →</span>
-                        </div>
-                    </a>
-                </div>
             </div>
         </div>
     </section>
 
-    <section class="about" aria-labelledby="about-title">
+    <section id="about" class="section about" aria-labelledby="about-title">
         <h2 id="about-title">About Me</h2>
         <div class="about-grid">
           <div class="about-text">
@@ -755,6 +1105,7 @@
 
     <section id="experience" class="section">
         <h2>Experience</h2>
+<<<<<<< HEAD
         <div class="timeline">
             <div class="job">
                 <div class="job-date">December 2025 – Present</div>
@@ -775,18 +1126,40 @@
                     <li>Built monitoring systems processing 15,000+ data points/hour across 25+ distributed research machines.</li>
                     <li>Engineered Flask-based server health dashboard with LDAP authentication serving 50+ researchers real-time.</li>
                     <li>Debugged 30+ Linux server issues resolving SSH, Docker, and network connectivity tickets for researchers.</li>
+=======
+        <div class="book-wrap">
+            <div class="book">
+                <div class="spread is-active">
+                    <div class="page left">
+                        <div class="entry">
+                            <div class="entry-head">
+                                <div class="entry-title"><span class="role">Frontend Developer</span> · <span class="company">Crackd.ai (Humor Project)</span></div>
+                                <div class="entry-meta">December 2025 – Present · Remote</div>
+                            </div>
+                            <ul>
+                                <li>Built AI-powered image captioning with 5+ responsive UI components and real-time LLM caption generation.</li>
+                                <li>Automated content pipeline supporting 3+ weekly posts across 4+ social media channels with quality filtering.</li>
+                                <li>Refined LLM joke generation through 50+ prompt iterations to improve caption quality for Gen‑Z audiences.</li>
+                            </ul>
+                            <p><strong>Tech:</strong> React, TypeScript, LLM Integration, Next.js</p>
+                        </div>
+                    </div>
+                    <div class="page right">
+                        <div class="entry">
+                            <div class="entry-head">
+                                <div class="entry-title"><span class="role">Systems Infrastructure Intern</span> · <span class="company">Columbia University CS</span></div>
+                                <div class="entry-meta">May 2025 – Present · Manhattan, NY</div>
+                            </div>
+                            <ul>
+                                <li>Built monitoring systems processing 15,000+ data points/hour across 25+ distributed research machines.</li>
+                                <li>Engineered Flask-based server health dashboard with LDAP authentication serving 50+ researchers real-time.</li>
+                                <li>Resolved 30+ Linux server issues across SSH, Docker, and network connectivity.</li>
+>>>>>>> c7f6ce5 (changed overall theme of website)
                 </ul>
                 <p><strong>Tech:</strong> Python, GitLab, Linux, Docker</p>
             </div>
-
-            <div class="job">
-                <div class="job-date">Sept 2024 - May 2025</div>
-                <h3>Multimedia Assistant</h3>
-                <span>Columbia University School of Social Work | Manhattan, NY</span>
-                <li> Provided technical support to professors, troubleshooting monitors, computers, and classroom technology setups.</li>
-                <li>Managed help desk operations, fielding phone calls for tech issues and resolving them efficiently.</li>
-                <li>Maintained and secured tech equipment, including projectors and computers, ensuring proper functionality and closing procedures.</li>
             </div>
+<<<<<<< HEAD
             <div class="job">
                 <div class="job-date">June 2024 – August 2024</div>
                 <h3>Student Leader</h3>
@@ -795,8 +1168,42 @@
                     <li>Mentored 35+ students on 10+ data science projects using Python, pandas, and NumPy for data analysis.</li>
                     <li>Guided 40+ students through 50+ competitive programming challenges in C++ and Java to develop OOP skills.</li>
                     <li>Instructed 30+ students in intro to gaming course covering Unity, C#, and 3+ game development projects.</li>
+=======
+                </div>
+                <div class="spread">
+                    <div class="page left">
+                        <div class="entry">
+                            <div class="entry-head">
+                                <div class="entry-title"><span class="role">Multimedia Assistant</span> · <span class="company">Columbia University School of Social Work</span></div>
+                                <div class="entry-meta">Sept 2024 – May 2025 · Manhattan, NY</div>
+                            </div>
+                            <ul>
+                                <li>Provided technical support to professors, troubleshooting classroom technology.</li>
+                                <li>Managed help desk operations, resolving incoming tech issues efficiently.</li>
+                                <li>Maintained and secured projectors and computers with proper closing procedures.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="page right">
+                        <div class="entry">
+                            <div class="entry-head">
+                                <div class="entry-title"><span class="role">Student Leader</span> · <span class="company">Columbia Summer Engineering Program</span></div>
+                                <div class="entry-meta">June 2024 – August 2024 · Manhattan, NY</div>
+                            </div>
+                            <ul>
+                                <li>Mentored 35+ students on 10+ data science projects using Python, pandas, and NumPy.</li>
+                                <li>Guided 40+ students through 50+ competitive programming challenges in C++ and Java.</li>
+                                <li>Taught intro to game development covering Unity, C#, and 3+ projects.</li>
+>>>>>>> c7f6ce5 (changed overall theme of website)
                 </ul>
                 <p><strong>Tech:</strong> Python, pandas, NumPy, C++, Unity, C#</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-nav">
+                    <button class="page-btn" id="prevSpread">Prev</button>
+                    <button class="page-btn" id="nextSpread">Next</button>
+                </div>
             </div>
         </div>
     </section>
@@ -816,20 +1223,51 @@
         </div>
     </section>
 
-    <footer>
+    <footer id="siteFooter">
         <p>© 2025 Thuy Vy Tran</p>
     </footer>
 
     <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // Simple hash router: one section (page) visible at a time
+        (function () {
+            const sections = Array.from(document.querySelectorAll('.section'));
+            document.body.classList.add('page-view');
+            const show = (id) => {
+                const target = document.getElementById(id) || document.getElementById('projects');
+                sections.forEach(s => s.classList.remove('is-current'));
+                if (target) target.classList.add('is-current');
+                window.scrollTo(0, 0);
+                // Move footer into the visible section so its background matches that page
+                const footer = document.getElementById('siteFooter');
+                if (footer && target && target.parentElement !== footer.parentElement) {
+                    target.appendChild(footer);
+                } else if (footer && target) {
+                    target.appendChild(footer);
+                }
+            };
+            const fromHash = () => {
+                const hash = (window.location.hash || '#projects').slice(1);
+                show(hash);
+            };
+            // Intercept in-page links to switch pages instead of scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(a => {
+                a.addEventListener('click', (e) => {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+                    const id = a.getAttribute('href').replace('#', '');
+                    if (id) window.location.hash = id;
                 });
             });
-        });
+            window.addEventListener('hashchange', fromHash);
+            fromHash();
+
+            // Global Back button logic
+            const backBtn = document.getElementById('backBtn');
+            if (backBtn) {
+                backBtn.addEventListener('click', () => {
+                    window.location.href = 'index.html';
+                });
+            }
+        })();
 
         // Fade-in on scroll
         const observer = new IntersectionObserver((entries) => {
@@ -958,6 +1396,223 @@
             setTransform();
             window.addEventListener('resize', setTransform);
         }
+        // Minecraft-style project list interactions
+        (function () {
+            const list = document.getElementById('worldsList');
+            const openBtn = document.getElementById('openProjectBtn');
+            if (!list || !openBtn) return;
+            let selected = list.querySelector('.world-item.selected');
+            const update = () => { openBtn.disabled = !selected; };
+            list.querySelectorAll('.world-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    if (selected) selected.classList.remove('selected');
+                    selected = item;
+                    item.classList.add('selected');
+                    update();
+                });
+                item.addEventListener('dblclick', () => {
+                    const href = item.getAttribute('data-href');
+                    if (href) window.open(href, '_blank', 'noopener,noreferrer');
+                });
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        const href = item.getAttribute('data-href');
+                        if (href) window.open(href, '_blank', 'noopener,noreferrer');
+                    }
+                });
+            });
+            openBtn.addEventListener('click', () => {
+                if (!selected) return;
+                const href = selected.getAttribute('data-href');
+                if (href) window.open(href, '_blank', 'noopener,noreferrer');
+            });
+            update();
+        })();
+        // Experience map interactions
+        (function () {
+            // Book flipping navigation for Experience section
+            const book = document.querySelector('#experience .book');
+            if (book) {
+                const spreads = Array.from(book.querySelectorAll('.spread'));
+                let idx = spreads.findIndex(s => s.classList.contains('is-active'));
+                if (idx < 0) idx = 0;
+                const show = (newIdx, dir) => {
+                    if (newIdx < 0 || newIdx >= spreads.length || newIdx === idx) return;
+                    spreads[idx].classList.remove('is-active');
+                    const target = spreads[newIdx];
+                    target.classList.add('is-active');
+                    target.classList.add(dir === 'next' ? 'animate-in-right' : 'animate-in-left');
+                    setTimeout(() => target.classList.remove('animate-in-right','animate-in-left'), 650);
+                    idx = newIdx;
+                };
+                const prevBtn = book.querySelector('#prevSpread');
+                const nextBtn = book.querySelector('#nextSpread');
+                if (prevBtn) prevBtn.addEventListener('click', () => show(idx-1, 'prev'));
+                if (nextBtn) nextBtn.addEventListener('click', () => show(idx+1, 'next'));
+            }
+
+            const map = document.getElementById('expMap');
+            const detail = document.getElementById('expDetail');
+            if (!map || !detail) return;
+            // Pixel map render (64x64 tile grid)
+            const canvas = document.getElementById('mapCanvas');
+            const ctxOut = canvas ? canvas.getContext('2d') : null;
+            const GRID_W = 128, GRID_H = 128;
+            const water1 = '#3560d6', water2 = '#3e69e0';
+            const grass1 = '#2f8a38', grass2 = '#3f9a43';
+            const desert1 = '#c8a96a', desert2 = '#d7b16a';
+            function drawPixelMap() {
+                if (!canvas || !ctxOut) return;
+                // offscreen pixel buffer
+                const off = document.createElement('canvas');
+                off.width = GRID_W; off.height = GRID_H;
+                const ctx = off.getContext('2d', { willReadFrequently: true });
+                // Utility: seeded value noise (pixel-true)
+                const seed = 1337;
+                const hash = (x,y)=>{
+                    const s = Math.sin(x*127.1 + y*311.7 + seed)*43758.5453;
+                    return s - Math.floor(s);
+                };
+                const lerp = (a,b,t)=> a + (b-a)*t;
+                const smoothstep = t => t*t*(3-2*t);
+                const valueNoise = (x,y,scale)=>{
+                    x/=scale; y/=scale;
+                    const xi = Math.floor(x), yi = Math.floor(y);
+                    const xf = x - xi, yf = y - yi;
+                    const tl = hash(xi,yi), tr = hash(xi+1,yi);
+                    const bl = hash(xi,yi+1), br = hash(xi+1,yi+1);
+                    const u = smoothstep(xf), v = smoothstep(yf);
+                    const t1 = lerp(tl,tr,u);
+                    const t2 = lerp(bl,br,u);
+                    return lerp(t1,t2,v);
+                };
+                const fbm = (x,y)=>{
+                    let n = 0, a = 0.5, s = 32;
+                    for (let o=0;o<4;o++){
+                        n += valueNoise(x,y,s)*a; a*=0.5; s/=2;
+                    }
+                    return n;
+                };
+                // Generate elevation & biome with island falloff for better coast edges
+                const cx = GRID_W/2, cy = GRID_H/2;
+                const maxR = Math.max(cx,cy)*0.95;
+                const elevation = new Array(GRID_W*GRID_H);
+                for (let y=0;y<GRID_H;y++){
+                    for (let x=0;x<GRID_W;x++){
+                        const i = y*GRID_W+x;
+                        const e = fbm(x,y);
+                        const dx = x-cx, dy = y-cy;
+                        const d = Math.sqrt(dx*dx+dy*dy);
+                        const falloff = Math.max(0, 1 - (d/maxR)**2);
+                        elevation[i] = e*0.8 + falloff*0.6;
+                    }
+                }
+                const sea = 0.55;
+                // First pass: color pixels
+                const px = (x,y,c)=>{ ctx.fillStyle=c; ctx.fillRect(x,y,1,1); };
+                const deep = '#2449b8', shallow = '#2f5fde';
+                const sand = '#d7c586';
+                const grassL = '#4ba64d', grassD = '#2f8a38';
+                const forest = '#1f6d24';
+                const moistNoise = (x,y)=> fbm(x+777,y+333);
+                for (let y=0;y<GRID_H;y++){
+                    for (let x=0;x<GRID_W;x++){
+                        const e = elevation[y*GRID_W+x];
+                        if (e<sea-0.12) px(x,y, ((x+y)&1)? deep: shallow);
+                        else if (e<sea) px(x,y, shallow);
+                        else {
+                            // land: moisture-based grass/forest/desert
+                            const m = moistNoise(x,y);
+                            if (m<0.28) px(x,y, ((x+y)&1)? desert1: desert2);
+                            else if (m>0.7) px(x,y, ((x+y)&1)? forest: grassD);
+                            else px(x,y, ((x+y)&1)? grassL: grassD);
+                        }
+                    }
+                }
+                // Second pass: sand coastline where land touches water
+                const isWater = (x,y)=>{
+                    if (x<0||y<0||x>=GRID_W||y>=GRID_H) return true;
+                    return elevation[y*GRID_W+x] < sea;
+                };
+                for (let y=1;y<GRID_H-1;y++){
+                    for (let x=1;x<GRID_W-1;x++){
+                        const e = elevation[y*GRID_W+x];
+                        if (e>=sea && (isWater(x+1,y)||isWater(x-1,y)||isWater(x,y+1)||isWater(x,y-1))) {
+                            px(x,y, sand);
+                        }
+                    }
+                }
+                // dirt path (Bresenham) bottom->top waypoints
+                const way = [[64,124],[56,104],[40,88],[72,68],[88,52],[100,36]];
+                function line(x0,y0,x1,y1,color){
+                    let dx=Math.abs(x1-x0), sx=x0<x1?1:-1;
+                    let dy=-Math.abs(y1-y0), sy=y0<y1?1:-1;
+                    let err=dx+dy, e2;
+                    while(true){
+                        ctx.fillStyle=color; ctx.fillRect(x0,y0,1,1);
+                        if (x0===x1 && y0===y1) break;
+                        e2=2*err;
+                        if (e2>=dy){ err+=dy; x0+=sx; }
+                        if (e2<=dx){ err+=dx; y0+=sy; }
+                    }
+                }
+                for (let k=0;k<way.length-1;k++) line(way[k][0],way[k][1],way[k+1][0],way[k+1][1],'#7f5f3f');
+                // houses as 3x3 blocks near markers
+                const house = (x,y)=> fillRect(x-2,y-2,6,6,'#d6c08f','#caa97c');
+                house(36,28); // forest
+                house(82,52); // end
+                house(26,84); // stone
+                house(60,68); // desert
+                // blit to visible canvas without smoothing
+                canvas.width = map.clientWidth;
+                canvas.height = map.clientHeight;
+                ctxOut.imageSmoothingEnabled = false;
+                ctxOut.clearRect(0,0,canvas.width,canvas.height);
+                ctxOut.drawImage(off,0,0,canvas.width,canvas.height);
+            }
+            drawPixelMap();
+            window.addEventListener('resize', drawPixelMap, { passive: true });
+            // Animate path draw when section appears
+            const path = document.getElementById('expPath');
+            if (path) {
+                const total = path.getTotalLength();
+                path.style.strokeDasharray = `${total}`;
+                path.style.strokeDashoffset = `${total}`;
+                const expSection = document.getElementById('experience');
+                const io = new IntersectionObserver((entries)=>{
+                    entries.forEach(en=>{
+                        if (en.isIntersecting) {
+                            path.style.transition = 'stroke-dashoffset 1200ms ease-out';
+                            path.style.strokeDashoffset = '0';
+                            io.disconnect();
+                        }
+                    });
+                }, { threshold: 0.2 });
+                if (expSection) io.observe(expSection);
+            }
+            let scale = 1;
+            const clamp = (v,min,max)=>Math.max(min,Math.min(max,v));
+            const apply = ()=>{ map.style.transform = `scale(${scale})`; };
+            document.querySelectorAll('.map-zoom').forEach(btn=>{
+                btn.addEventListener('click', ()=>{
+                    const dir = btn.dataset.zoom === 'in' ? 0.2 : -0.2;
+                    scale = clamp(scale + dir, 1, 2);
+                    apply();
+                });
+            });
+            document.querySelectorAll('.marker').forEach(m=>{
+                m.addEventListener('click', ()=>{
+                    const id = m.getAttribute('data-target');
+                    const src = document.getElementById(id);
+                    if (!src) return;
+                    detail.innerHTML = src.innerHTML;
+                    detail.classList.add('active');
+                });
+            });
+            detail.addEventListener('click', (e)=>{
+                if (e.target === detail) detail.classList.remove('active');
+            });
+        })();
     </script>
 </body>
 </html>
