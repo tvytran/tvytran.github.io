@@ -23,6 +23,8 @@
             --mc-ui-dark: #2b601c;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17"><rect x="7" y="2" width="3" height="5" fill="white" stroke="black" stroke-width="1"/><rect x="7" y="10" width="3" height="5" fill="white" stroke="black" stroke-width="1"/><rect x="2" y="7" width="5" height="3" fill="white" stroke="black" stroke-width="1"/><rect x="10" y="7" width="5" height="3" fill="white" stroke="black" stroke-width="1"/><rect x="7" y="7" width="3" height="3" fill="transparent"/></svg>') 8 8, crosshair;}
         body {
             font-family: 'Press Start 2P', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--mc-sky);
@@ -393,7 +395,7 @@
             position: fixed;
             top: 12px;
             left: 12px;
-            z-index: 20;
+            z-index: 9999;
             background: #c6c6c6;
             border: 4px solid #000;
             box-shadow: 6px 6px 0 #000;
@@ -780,51 +782,89 @@
         /* Contact (last section) — follow alternating theme */
         #contact.section::before { background: var(--primary-alt); }
         #contact { color: inherit; }
-        .contact-wrap {
+        
+        /* Minecraft Crafting Table */
+        .crafting-table {
+            display: grid;
+            grid-template-columns: repeat(3, 160px);
+            grid-template-rows: repeat(3, 160px);
+            gap: 12px;
+            width: fit-content;
+            margin: 0 auto;
+            padding: 32px;
+            background: 
+                linear-gradient(135deg, #6b5638 0%, #8b6f47 50%, #6b5638 100%),
+                repeating-linear-gradient(90deg, transparent, transparent 16px, rgba(0,0,0,0.1) 16px, rgba(0,0,0,0.1) 18px);
+            border: 8px solid #4a3828;
+            box-shadow: 
+                inset 0 0 0 4px #8b6f47,
+                inset 0 0 0 10px #4a3828,
+                16px 16px 0 #000;
+            image-rendering: pixelated;
+        }
+        
+        .craft-slot {
+            width: 160px;
+            height: 160px;
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.4) 0%, transparent 40%, rgba(255,255,255,0.1) 100%),
+                #8b8b8b;
+            border: 5px solid #373737;
+            box-shadow: 
+                inset 4px 4px 0 rgba(255,255,255,0.2),
+                inset -4px -4px 0 rgba(0,0,0,0.4);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            justify-content: center;
+            transition: all 0.15s ease;
+            position: relative;
         }
-        .contact-cta .btn-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--mc-ui);
-            color: #fff;
-            border-radius: 0;
-            padding: 0.6rem 1rem 0.6rem 0.9rem;
-            font-weight: 700;
-            font-size: 0.95rem;
+        
+        .craft-slot.empty {
+            cursor: default;
+        }
+        
+        .craft-slot.social {
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.3) 0%, transparent 40%, rgba(255,255,255,0.15) 100%),
+                #a8a8a8;
+            cursor: pointer;
             text-decoration: none;
-            border: 4px solid #000;
-            box-shadow: 6px 6px 0 #000;
-            transition: transform .05s steps(1,end), box-shadow .05s steps(1,end);
         }
-        .contact-cta .btn-pill:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 #000; background: var(--mc-ui-dark); }
-        .contact-cta .arrow { display:inline-block; transform: translateX(0); transition: transform 0.2s ease; }
-        .contact-cta .btn-pill:hover .arrow { transform: translateX(3px); }
+        
+        .craft-slot.social:hover {
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.2) 0%, transparent 40%, rgba(255,255,255,0.25) 100%),
+                #c0c0c0;
+            transform: scale(1.05);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255,255,255,0.3),
+                inset -4px -4px 0 rgba(0,0,0,0.3),
+                0 0 24px rgba(255,255,255,0.5);
+        }
+        
+        .craft-slot.social:active {
+            transform: scale(0.98);
+        }
+        
+        .craft-slot.social i {
+            font-size: 64px !important;
+        }
 
-        .contact-links {
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 1.25rem 4rem;
-        }
-        .contact-links a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            opacity: 0.9;
-            transition: opacity 0.2s ease, color 0.2s ease;
-        }
-        .contact-links a:hover { opacity: 1; color: var(--primary); }
-
-        @media (max-width: 720px) {
-            .contact-wrap { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
-            .contact-links { grid-template-columns: 1fr 1fr; gap: 0.9rem 2rem; }
+        @media (max-width: 768px) {
+            .crafting-table {
+                grid-template-columns: repeat(3, 100px);
+                grid-template-rows: repeat(3, 100px);
+                gap: 8px;
+                padding: 20px;
+            }
+            .craft-slot {
+                width: 100px;
+                height: 100px;
+            }
+            .craft-slot.social i {
+                font-size: 40px !important;
+            }
         }
 
         /* Make last section (Contact) smaller vertically */
@@ -875,41 +915,96 @@
             color: #667085;
         }
 
-        /* About section */
+        /* About section - Minecraft nametag style */
     .about {
       margin: 3rem auto;
-      max-width: 1100px;
+      max-width: 1200px; /* wider to fill page */
       text-align: center;
-      padding: 0 2rem;
-    }
-    .about h2 { font-size: 1.4rem; margin-bottom: 1rem; text-align: center; }
-    .about-grid {
-      display: grid;
-      grid-template-columns: minmax(300px, 560px) 320px;
-      gap: 1.5rem;
+      padding: 2rem;
+      min-height: 80vh;
+      display: flex;
       align-items: center;
       justify-content: center;
     }
-    .about-text { font-size: 1.05rem; line-height: 1.6; text-align: left; margin: 0 auto; }
-    .about-photo {
-      width: 100%; height: 100%; max-height: 320px;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-      border: 2px solid var(--primary-alt);
-      background: #f9fbff;
+    .nametag-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
     }
-    .about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    @media (max-width: 740px) {
-      .about-grid { grid-template-columns: 1fr; }
-      .about { text-align: left; }
+    /* Player skin (profile image) */
+    .player-skin {
+      width: 180px;
+      height: 180px;
+      border: 4px solid #000;
+      box-shadow: 8px 8px 0 #000;
+      overflow: hidden;
+      background: #d0d0d0;
+      image-rendering: pixelated;
+    }
+    .player-skin img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* Floating nametag */
+    .nametag {
+      background: rgba(0, 0, 0, 0.65);
+      border: 3px solid #000;
+      box-shadow: 6px 6px 0 #000;
+      padding: 0.75rem 1.5rem;
+      text-align: center;
+      color: #fff;
+      text-shadow: 2px 2px 0 #000;
+      animation: floatTag 3s ease-in-out infinite;
+    }
+    @keyframes floatTag {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    .nametag-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .nametag-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+    /* Bio text below */
+    .bio-text {
+      max-width: 900px; /* much wider */
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text);
+      text-align: center;
+    }
+    .bio-text p {
+      margin-bottom: 0.95rem;
+    }
+    @media (max-width: 640px) {
+      .player-skin {
+        width: 140px;
+        height: 140px;
+      }
+      .nametag-title {
+        font-size: 1.15rem;
+      }
+      .nametag-subtitle {
+        font-size: 0.75rem;
+      }
+      .bio-text {
+        font-size: 0.95rem;
+        max-width: 100%;
+      }
     }
 
         footer {
             background: transparent;
             text-align: center;
             padding: 0.4rem 0;
-            margin-top: 0.5rem;
+            margin-top: 4rem;
             font-size: 0.7rem;
             color: inherit; /* match current page text color */
             border: 0;      /* no top border strip */
@@ -925,6 +1020,96 @@
     </div>
 
     <header></header>
+
+    <section id="about" class="section about" aria-labelledby="about-title">
+        <div class="nametag-container">
+          <div class="player-skin">
+            <img src="profile.png" alt="Thuy Vy Tran" />
+                        </div>
+          <div class="nametag">
+            <div class="nametag-title">Thuy-Vy Tran</div>
+            <div class="nametag-subtitle">CS + Econ @ Columbia University</div>
+                        </div>
+          <div class="bio-text">
+            <p>My name is Thuy-Vy (Twee-Vee) Tran. I'm a Computer Science student at Columbia University's School of Engineering and Applied Sciences, with experience spanning from systems administration to frontend development.</p>
+            <p>I'm passionate about exploring backend architecture and AI/ML, and I'm always looking for opportunities to expand my technical horizons.</p>
+            <p>Outside of coding, you'll find me playing Minecraft (which inspired this site), practicing piano, or embracing my girly side.</p>
+            <p>I'm currently looking for a summer 2026 internship in software development or systems administration. Feel free to reach out to me at <a href="mailto:tvytran@columbia.edu">tvytran@columbia.edu</a> or
+                 <a href="https://www.linkedin.com/in/thuy-vy-tran-876390288/">LinkedIn</a>!</p>
+            </div>
+        </div>
+      </section>
+
+    <section id="experience" class="section">
+        <h2>Experience</h2>
+        <div class="book-wrap">
+            <div class="book">
+                <div class="spread is-active">
+                    <div class="page left">
+                        <div class="entry">
+                            <div class="entry-head">
+                                <div class="entry-title"><span class="role">Frontend Developer</span> · <span class="company">Crackd.ai (Humor Project)</span></div>
+                                <div class="entry-meta">December 2025 – Present · Remote</div>
+                        </div>
+                            <ul>
+                                <li>Built AI-powered image captioning with 5+ responsive UI components and real-time LLM caption generation.</li>
+                                <li>Automated content pipeline supporting 3+ weekly posts across 4+ social media channels with quality filtering.</li>
+                                <li>Refined LLM joke generation through 50+ prompt iterations to improve caption quality for Gen‑Z audiences.</li>
+                            </ul>
+                            <p><strong>Tech:</strong> React, TypeScript, LLM Integration, Next.js</p>
+                        </div>
+                        </div>
+                    <div class="page right">
+                        <div class="entry">
+                            <div class="entry-head">
+                                <div class="entry-title"><span class="role">Systems Infrastructure Intern</span> · <span class="company">Columbia University CS</span></div>
+                                <div class="entry-meta">May 2025 – Present · Manhattan, NY</div>
+                        </div>
+                            <ul>
+                                <li>Built monitoring systems processing 15,000+ data points/hour across 25+ distributed research machines.</li>
+                                <li>Engineered Flask-based server health dashboard with LDAP authentication serving 50+ researchers real-time.</li>
+                                <li>Resolved 30+ Linux server issues across SSH, Docker, and network connectivity.</li>
+                </ul>
+                <p><strong>Tech:</strong> Python, GitLab, Linux, Docker</p>
+                        </div>
+                        </div>
+                </div>
+                <div class="spread">
+                    <div class="page left">
+                        <div class="entry">
+                            <div class="entry-head">
+                                <div class="entry-title"><span class="role">Multimedia Assistant</span> · <span class="company">Columbia University School of Social Work</span></div>
+                                <div class="entry-meta">Sept 2024 – May 2025 · Manhattan, NY</div>
+                            </div>
+                            <ul>
+                                <li>Provided technical support to professors, troubleshooting classroom technology.</li>
+                                <li>Managed help desk operations, resolving incoming tech issues efficiently.</li>
+                                <li>Maintained and secured projectors and computers with proper closing procedures.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="page right">
+                        <div class="entry">
+                            <div class="entry-head">
+                                <div class="entry-title"><span class="role">Student Leader</span> · <span class="company">Columbia Summer Engineering Program</span></div>
+                                <div class="entry-meta">June 2024 – August 2024 · Manhattan, NY</div>
+                            </div>
+                            <ul>
+                                <li>Mentored 35+ students on 10+ data science projects using Python, pandas, and NumPy.</li>
+                                <li>Guided 40+ students through 50+ competitive programming challenges in C++ and Java.</li>
+                                <li>Taught intro to game development covering Unity, C#, and 3+ projects.</li>
+                </ul>
+                <p><strong>Tech:</strong> Python, pandas, NumPy, C++, Unity, C#</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-nav">
+                    <button class="page-btn" id="prevSpread">Prev</button>
+                    <button class="page-btn" id="nextSpread">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section id="projects" class="section projects-section">
 
@@ -943,7 +1128,7 @@
                         <span class="world-version">Stack: Python, LLM Integration, Flask</span>
                     </span>
                 </button>
-                <button type="button" class="world-item selected" data-href="https://vsacolumbia.com">
+                <button type="button" class="world-item" data-href="https://vsacolumbia.com">
                     <span class="world-thumb">
                         <img src="vsa.png" alt="VSA Website thumbnail" loading="lazy" width="200" height="120">
                     </span>
@@ -993,30 +1178,15 @@
                         <span class="world-version">Stack: HTML, CSS, JavaScript</span>
                     </span>
                 </button>
-                        </div>
+          </div>
             <div class="worlds-actions">
                 <button class="mc-btn mc-btn-primary" id="openProjectBtn">Open Selected Project</button>
                 <div class="worlds-actions-secondary">
                     <button class="mc-btn mc-btn-secondary disabled" aria-disabled="true">Edit</button>
                     <button class="mc-btn mc-btn-secondary disabled" aria-disabled="true">Delete</button>
                     <button class="mc-btn mc-btn-secondary disabled" aria-disabled="true">Re‑Create</button>
-                    <a class="mc-btn mc-btn-secondary" href="#about">Back</a>
+                    <a class="mc-btn mc-btn-secondary" href="#experience">Back</a>
                         </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="section about" aria-labelledby="about-title">
-        <h2 id="about-title">About Me</h2>
-        <div class="about-grid">
-          <div class="about-text">
-            <p>
-             I'm Thuy-Vy (Twee-Vee) Tran. I'm a junior at Columbia University studying Computer Science and Economics. I'm interested in software development, and learning about new technologies. Currently, I'm working 
-             as a Systems Infastructure Intern at Columbia University Department of Computer Science. 
-            </p>
-          </div>
-          <div class="about-photo">
-            <img src="profile.png" alt="Photo of Thuy Vy Tran" />
           </div>
         </div>
       </section>
@@ -1132,90 +1302,26 @@
         </div>
     </section>
 
-
-    <section id="experience" class="section">
-        <h2>Experience</h2>
-        <div class="book-wrap">
-            <div class="book">
-                <div class="spread is-active">
-                    <div class="page left">
-                        <div class="entry">
-                            <div class="entry-head">
-                                <div class="entry-title"><span class="role">Frontend Developer</span> · <span class="company">Crackd.ai (Humor Project)</span></div>
-                                <div class="entry-meta">December 2025 – Present · Remote</div>
-                            </div>
-                            <ul>
-                                <li>Built AI-powered image captioning with 5+ responsive UI components and real-time LLM caption generation.</li>
-                                <li>Automated content pipeline supporting 3+ weekly posts across 4+ social media channels with quality filtering.</li>
-                                <li>Refined LLM joke generation through 50+ prompt iterations to improve caption quality for Gen‑Z audiences.</li>
-                            </ul>
-                            <p><strong>Tech:</strong> React, TypeScript, LLM Integration, Next.js</p>
-                        </div>
-                    </div>
-                    <div class="page right">
-                        <div class="entry">
-                            <div class="entry-head">
-                                <div class="entry-title"><span class="role">Systems Infrastructure Intern</span> · <span class="company">Columbia University CS</span></div>
-                                <div class="entry-meta">May 2025 – Present · Manhattan, NY</div>
-                            </div>
-                            <ul>
-                                <li>Built monitoring systems processing 15,000+ data points/hour across 25+ distributed research machines.</li>
-                                <li>Engineered Flask-based server health dashboard with LDAP authentication serving 50+ researchers real-time.</li>
-                                <li>Resolved 30+ Linux server issues across SSH, Docker, and network connectivity.</li>
-                </ul>
-                <p><strong>Tech:</strong> Python, GitLab, Linux, Docker</p>
-            </div>
-            </div>
-                </div>
-                <div class="spread">
-                    <div class="page left">
-                        <div class="entry">
-                            <div class="entry-head">
-                                <div class="entry-title"><span class="role">Multimedia Assistant</span> · <span class="company">Columbia University School of Social Work</span></div>
-                                <div class="entry-meta">Sept 2024 – May 2025 · Manhattan, NY</div>
-                            </div>
-                            <ul>
-                                <li>Provided technical support to professors, troubleshooting classroom technology.</li>
-                                <li>Managed help desk operations, resolving incoming tech issues efficiently.</li>
-                                <li>Maintained and secured projectors and computers with proper closing procedures.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="page right">
-                        <div class="entry">
-                            <div class="entry-head">
-                                <div class="entry-title"><span class="role">Student Leader</span> · <span class="company">Columbia Summer Engineering Program</span></div>
-                                <div class="entry-meta">June 2024 – August 2024 · Manhattan, NY</div>
-                            </div>
-                            <ul>
-                                <li>Mentored 35+ students on 10+ data science projects using Python, pandas, and NumPy.</li>
-                                <li>Guided 40+ students through 50+ competitive programming challenges in C++ and Java.</li>
-                                <li>Taught intro to game development covering Unity, C#, and 3+ projects.</li>
-                </ul>
-                <p><strong>Tech:</strong> Python, pandas, NumPy, C++, Unity, C#</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="book-nav">
-                    <button class="page-btn" id="prevSpread">Prev</button>
-                    <button class="page-btn" id="nextSpread">Next</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="contact" class="section">
-        <div class="contact-wrap">
-            <nav class="contact-links" aria-label="Footer">
-                <a href="#projects">Project</a>
-                <a href="#about">About</a>
-                <a href="#skills">Experience</a>
-                <a href="https://www.linkedin.com/in/thuy-vy-tran-876390288/">Connect</a>
-                <a href="https://github.com/tvytran" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
-            <div class="contact-cta">
-                <a class="btn-pill" href="https://www.linkedin.com/in/thuy-vy-tran-876390288/">Connect with me <span class="arrow">→</span></a>
-            </div>
+        <h2 style="text-align: center; margin-bottom: 2rem; color: #2b2b2b;">Connect with Me</h2>
+        <div class="crafting-table">
+            <div class="craft-slot empty"></div>
+            <div class="craft-slot empty"></div>
+            <div class="craft-slot empty"></div>
+            
+            <a href="https://www.linkedin.com/in/thuy-vy-tran-876390288/" target="_blank" rel="noopener noreferrer" class="craft-slot social" aria-label="LinkedIn">
+                <i class="fab fa-linkedin" style="color: #0077b5;"></i>
+            </a>
+            <a href="mailto:tvytran2@gmail.com" class="craft-slot social" aria-label="Email">
+                <i class="fas fa-envelope" style="color: #ea4335;"></i>
+            </a>
+            <a href="https://github.com/tvytran" target="_blank" rel="noopener noreferrer" class="craft-slot social" aria-label="GitHub">
+                <i class="fab fa-github" style="color: #333;"></i>
+            </a>
+            
+            <div class="craft-slot empty"></div>
+            <div class="craft-slot empty"></div>
+            <div class="craft-slot empty"></div>
         </div>
     </section>
 
@@ -1229,7 +1335,7 @@
             const sections = Array.from(document.querySelectorAll('.section'));
             document.body.classList.add('page-view');
             const show = (id) => {
-                const target = document.getElementById(id) || document.getElementById('projects');
+                const target = document.getElementById(id) || document.getElementById('about');
                 sections.forEach(s => s.classList.remove('is-current'));
                 if (target) target.classList.add('is-current');
                 window.scrollTo(0, 0);
@@ -1242,7 +1348,7 @@
                 }
             };
             const fromHash = () => {
-                const hash = (window.location.hash || '#projects').slice(1);
+                const hash = (window.location.hash || '#about').slice(1);
                 show(hash);
             };
             // Intercept in-page links to switch pages instead of scrolling
