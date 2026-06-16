@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (pointer: fine) {
+  * { cursor: none; }
+  a, button { cursor: none; }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #080808;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(127, 119, 221, 0.3);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7F77DD;
+  border-radius: 3px;
+}
+
+@keyframes glitch {
+  0% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 2px); }
+  20% { clip-path: inset(92% 0 1% 0); transform: translate(1px, -1px); }
+  40% { clip-path: inset(43% 0 1% 0); transform: translate(-1px, 3px); }
+  60% { clip-path: inset(25% 0 58% 0); transform: translate(3px, 1px); }
+  80% { clip-path: inset(54% 0 7% 0); transform: translate(-3px, -2px); }
+  100% { clip-path: inset(58% 0 43% 0); transform: translate(2px, -3px); }
+}
+
+.glitch-active {
+  animation: glitch 0.3s linear;
+}

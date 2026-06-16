@@ -1,86 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thuy Vy Tran | Menu</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-    :root {
-      --mc-sky: #9bd3ff;
-      --mc-dark: #0c0c0c;
-      --mc-stone: #bdbdbd;
-      --mc-stone-dark: #7a7a7a;
-      --mc-stone-light: #e7e7e7;
-      --text: #2b2b2b;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
-        body {
-      font-family: 'Press Start 2P', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: var(--mc-sky);
-      color: var(--text);
-      display: grid; place-items: center;
-            overflow: hidden;
-        }
-    /* Subtle vignette + noise for Minecraft vibe */
-    body::before{
-      content:""; position: fixed; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%),
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02) 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px);
-      mix-blend-mode: multiply;
-    }
-    .menu {
-      width: min(780px, 92vw);
-      text-align: center;
-      transform: translateY(-2vh);
-    }
-        .title {
-      font-size: clamp(24px, 5vw, 56px);
-      color: #fff;
-      text-shadow: 6px 6px 0 #000, 0 0 24px rgba(0,0,0,0.35);
-      margin-bottom: 24px;
-    }
-    .subtitle { color: #fff; opacity: .85; font-size: 14px; margin-bottom: 24px; text-shadow: 2px 2px 0 #000; }
-    .stack { display: grid; gap: 12px; width: min(520px, 92%); margin: 0 auto; }
-    .mc-btn {
-      display: block; width: 100%;
-      padding: 16px 18px;
-      background: linear-gradient(#cfcfcf, #bdbdbd);
-      color: #000; text-decoration: none;
-      border: 3px solid #000;
-      box-shadow: 6px 6px 0 #000;
-            position: relative;
-        }
-    .mc-btn::before, .mc-btn::after{
-      content:""; position:absolute; inset:0; pointer-events:none;
-    }
-    /* Bevel: light top-left, dark bottom-right */
-    .mc-btn::before{ border-top: 4px solid var(--mc-stone-light); border-left: 4px solid var(--mc-stone-light); }
-    .mc-btn::after{ border-bottom: 4px solid var(--mc-stone-dark); border-right: 4px solid var(--mc-stone-dark); }
-    .mc-btn:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 #000; }
-    .row { display:flex; gap:12px; justify-content:center; margin-top: 12px; }
-    .small { width: 48%; }
-    .footer { position: fixed; bottom: 10px; left: 10px; color:#fff; opacity:.85; font-size:12px; text-shadow:2px 2px 0 #000; }
-    </style>
-</head>
-<body>
-  <main class="menu" role="main" aria-label="Minecraft style menu">
-    <h1 class="title">THUY VY TRAN</h1>
-    <div class="subtitle">CS Student at Columbia University</div>
-    <div class="stack">
-      <a class="mc-btn" href="website.html#about">About Me</a>
-      <a class="mc-btn" href="website.html#experience">Experience</a>
-      <a class="mc-btn" href="website.html#projects">Projects</a>
-      <a class="mc-btn" href="website.html#skills">Skills</a>
-      <div class="row">
-        <a class="mc-btn small" href="website.html#contact">Contact</a>
-        <a class="mc-btn small" href="https://github.com/tvytran" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </div>
-    </div>
-  </main>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thuy Vy Tran</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
