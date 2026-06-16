@@ -2,6 +2,18 @@ import { motion } from 'framer-motion'
 
 const experiences = [
   {
+    role: 'Software Engineering Intern',
+    company: 'Cogent People Inc.',
+    period: 'June 2026 – August 2026',
+    location: 'Hybrid',
+    bullets: [
+      'Developing AI-powered healthcare analytics features in Python/TypeScript across the full SDLC in agile.',
+      'Implementing LLM and RAG-based pipelines in Python and SQL supporting federal healthcare data modernization.',
+      'Researching and experimenting with AI frameworks including LangChain; contributing to debugging and performance improvements.',
+    ],
+    stack: ['Python', 'TypeScript', 'SQL', 'LLMs', 'RAG', 'Agile'],
+  },
+  {
     role: 'Frontend Developer',
     company: 'Crackd.ai (Humor Project)',
     period: 'December 2025 – Present',

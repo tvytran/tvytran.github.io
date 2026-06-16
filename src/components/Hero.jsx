@@ -184,9 +184,7 @@ export default function Hero() {
         >
           <RepulsiveWord className="text-white">Thuy-Vy&nbsp;</RepulsiveWord>
           <RepulsiveWord>
-            <GlitchText>
               <span className="text-purple-accent">Tran.</span>
-            </GlitchText>
           </RepulsiveWord>
         </motion.h1>
 
@@ -243,7 +241,7 @@ export default function Hero() {
         className="absolute bottom-8 right-8 flex gap-8"
       >
         {[
-          { end: 4, label: 'Roles' },
+          { end: 5, label: 'Roles' },
           { end: 7, label: 'Projects' },
           { end: 100, label: 'Users', suffix: '+' },
         ].map((stat) => (
