@@ -4,16 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        purple: {
-          accent: '#7F77DD',
-        },
-        dark: {
-          bg: '#080808',
-          text: '#222222',
-        },
+        accent: '#8a6d4f',
+        paper: '#faf7f2',
+        ink: '#2a2724',
       },
       fontFamily: {
-        mono: ['"JetBrains Mono"', 'monospace'],
+        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
         sans: ['"Inter"', 'system-ui', 'sans-serif'],
       },
     },
