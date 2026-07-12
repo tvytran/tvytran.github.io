@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, Code2, Mail, Copy, Check } from 'lucide-react'
 import profile from '../../assets/profile.png'
+import PhotoStrip from '../PhotoStrip'
 
 const EMAIL = 'tvytran2@gmail.com'
 
@@ -29,6 +30,7 @@ export default function HomeTab({ goTo }) {
   }
 
   return (
+    <div>
     <div className="flex flex-col md:flex-row gap-8 md:gap-10">
       {/* photo */}
       <div className="flex justify-center md:block shrink-0">
@@ -122,6 +124,8 @@ export default function HomeTab({ goTo }) {
           })}
         </div>
       </div>
+    </div>
+    <PhotoStrip />
     </div>
   )
 }
