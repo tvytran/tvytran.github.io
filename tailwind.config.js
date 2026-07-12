@@ -4,13 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        accent: '#8a6d4f',
-        paper: '#faf7f2',
-        ink: '#2a2724',
+        page: '#DEE5F7',
+        panel: '#FDFDFF',
+        peri: {
+          DEFAULT: '#8496DC',
+          deep: '#6F81C9',
+          soft: '#AEBBEA',
+          pale: '#EFF2FC',
+          text: '#6D78AC',
+        },
       },
       fontFamily: {
-        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
-        sans: ['"Inter"', 'system-ui', 'sans-serif'],
+        round: ['"Quicksand"', 'system-ui', 'sans-serif'],
       },
     },
   },
