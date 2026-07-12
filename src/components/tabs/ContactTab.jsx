@@ -7,9 +7,10 @@ export default function ContactTab() {
   return (
     <div className="max-w-md mx-auto text-center py-6">
       <h1 className="text-peri-deep font-bold text-2xl mb-3">say hi (˶ᵔ ᗜ ᵔ˶)</h1>
-      <p className="text-peri-text mb-8">
+      <p className="text-peri-text mb-2">
         feel free to reach out — always happy to connect!
       </p>
+      <p className="text-peri-deep font-bold text-sm mb-8">tvytran2@gmail.com</p>
 
       <div className="border-2 border-peri/50 rounded-xl overflow-hidden text-left">
         {socials.map(({ label, href }, i) => {

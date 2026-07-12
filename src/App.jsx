@@ -55,7 +55,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-page font-round flex flex-col items-center px-4 py-8 md:py-14">
-      <div className="w-full max-w-3xl">
+      <div className="w-full max-w-6xl">
         {/* folder tabs */}
         <div className="flex gap-1.5 px-3 overflow-x-auto">
           {tabs.map(({ id, label, Icon }) => (
@@ -89,7 +89,7 @@ export default function App() {
           </div>
 
           {/* content */}
-          <div className="p-6 md:p-10">
+          <div className="p-6 md:p-10 min-h-[65vh]">
             <ActivePanel goTo={goTo} />
           </div>
         </div>
