@@ -20,7 +20,7 @@ export const projects = [
     name: 'VSA Website',
     description: 'Full-stack site for 100+ students in the Vietnamese Student Association.',
     stack: ['Next.js', 'Supabase'],
-    href: 'https://vsacolumbia.com',
+    href: 'https://anhchiem-git-main-tvytrans-projects.vercel.app/',
   },
   {
     Icon: Leaf,
