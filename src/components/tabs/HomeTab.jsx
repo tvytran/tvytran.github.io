@@ -44,13 +44,13 @@ export default function HomeTab({ goTo }) {
         <h1 className="text-peri-deep font-bold text-2xl mb-3">about me</h1>
         <p className="text-peri-text leading-relaxed mb-3">
           hi, i'm thuy-vy! i'm a cs + econ student at columbia who likes building
-          friendly, useful software — from healthcare AI pipelines to little
+          friendly, useful software from AI pipelines to little
           websites for the clubs i love.
         </p>
         <p className="text-peri-text leading-relaxed mb-4">
           outside of code, you'll usually find me mining away in minecraft,
           doing my makeup, getting my nails done, or perfecting my
-          (still questionable) homemade matcha — a very recent obsession.
+          homemade matcha, a very recent obsession.
         </p>
 
         <div className="flex flex-wrap items-center gap-2 mb-4">
