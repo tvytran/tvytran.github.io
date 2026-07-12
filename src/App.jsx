@@ -1,3 +1,4 @@
+import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Experience from './components/Experience'
 import Projects from './components/Projects'
@@ -7,11 +8,14 @@ import Contact from './components/Contact'
 export default function App() {
   return (
     <div className="bg-paper min-h-screen text-ink">
+      <Nav />
+      <div className="pt-14">
       <Hero />
       <Experience />
       <Projects />
       <Skills />
       <Contact />
+      </div>
     </div>
   )
 }

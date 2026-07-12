@@ -28,9 +28,6 @@ export default function Hero() {
         </a>
       </div>
 
-      <p className="text-sm text-ink/50">
-        Available for summer 2026 internships.
-      </p>
     </section>
   )
 }

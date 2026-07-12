@@ -13,8 +13,7 @@ export default function Contact() {
         </h2>
 
         <p className="text-ink/60 mb-8 max-w-xl">
-          I'm currently looking for a summer 2026 internship in software development or
-          systems administration. Feel free to reach out.
+          Feel free to reach out — always happy to connect.
         </p>
 
         <div className="flex gap-6 flex-wrap mb-16">
