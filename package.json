@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "rm -rf assets && cp -r dist/* . && git add -A index.html assets favicon.svg icons.svg && git commit -m 'Deploy site to main root' && git push origin main"
   },
   "dependencies": {
     "framer-motion": "^11.0.0",
