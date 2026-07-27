@@ -18,9 +18,9 @@ export const projects = [
   {
     Icon: FlaskConical,
     name: 'Molecufind',
-    description: 'AI-powered molecule search engine using LLMs for chemistry research.',
-    stack: ['Python', 'LLM Integration', 'Flask'],
-    href: 'https://github.com/tvytran/Molecufind',
+    description: 'Molecular similarity search by physicochemical properties, with 2D structure rendering and ADMET visualizations.',
+    stack: ['Python', 'Flask', 'RDKit', 'scikit-learn'],
+    href: 'https://github.com/tvytran/Molecufiind',
   },
   {
     Icon: Users,
