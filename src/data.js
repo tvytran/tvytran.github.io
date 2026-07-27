@@ -1,6 +1,13 @@
-import { BookOpen, FlaskConical, Users, Leaf, Gamepad2, KeyRound, ShieldCheck } from 'lucide-react'
+import { BookOpen, FlaskConical, Users, Leaf, Gamepad2, KeyRound, ShieldCheck, Laugh } from 'lucide-react'
 
 export const projects = [
+  {
+    Icon: Laugh,
+    name: 'The Humor Project',
+    description: 'AI caption-voting research platform studying campus humor with student-submitted photos.',
+    stack: ['Next.js', 'TypeScript', 'Supabase', 'LLM Integration'],
+    href: 'https://crkai.vercel.app/',
+  },
   {
     Icon: BookOpen,
     name: 'CURC 2026',
