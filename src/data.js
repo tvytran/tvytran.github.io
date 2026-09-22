@@ -147,9 +147,10 @@ export const experiences = [
 ]
 
 export const skills = [
-  'Python', 'Java', 'JavaScript', 'TypeScript', 'C++', 'C#', 'C', 'SQL',
-  'React', 'Next.js', 'Flask', 'Express', 'LangChain', 'Supabase', 'MongoDB',
-  'Docker', 'Git', 'Unity', 'NumPy', 'Pandas', 'Figma', 'Linux',
+  'Python', 'Java', 'JavaScript', 'TypeScript', 'C++', 'C#', 'C', 'SQL', 'Bash',
+  'React', 'Next.js', 'Angular', 'Flask', 'Express', 'LangChain', 'Supabase',
+  'AWS', 'Docker', 'Kubernetes', 'Ansible', 'Redshift', 'MongoDB',
+  'Git', 'Linux', 'Unity', 'NumPy', 'Pandas', 'Figma',
 ]
 
 export const socials = [
