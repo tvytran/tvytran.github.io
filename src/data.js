@@ -61,22 +61,37 @@ export const projects = [
 
 export const experiences = [
   {
+    role: 'Software Development Engineer Intern',
+    company: 'Amazon',
+    period: 'September 2026 – November 2026',
+    location: 'Manhattan, NY',
+    stack: ['Python', 'AWS Lambda', 'DynamoDB', 'CloudWatch', 'SageMaker JumpStart'],
+    bullets: [
+      'Built a telemetry dashboard in Amazon QuickSight tracking customer model selection and deployment across 700+ SageMaker JumpStart models, analyzing 500K+ usage events per month.',
+      'Developed 6 KPIs and a 4-stage customer journey visualization mapping user behavior from model discovery to deployment, surfacing drop-off points to inform roadmap decisions.',
+      'Fixed 5 existing telemetry methods to improve metric accuracy and built the dashboard as a scalable foundation for adoption across teams beyond our own.',
+    ],
+  },
+  {
     role: 'Software Engineer AI Intern',
     company: 'Cogent People Inc.',
     period: 'June 2026 – August 2026',
-    stack: ['Python', 'TypeScript', 'Bedrock', 'LangChain', 'LangGraph', 'Lambda', 'CI/CD', 'Docker', 'Kubernetes'],
+    location: 'Columbia, MD',
+    stack: ['Python', 'TypeScript', 'Bedrock', 'Strands', 'RAG', 'MCP', 'Lambda', 'CI/CD', 'Docker', 'Redshift'],
     bullets: [
-      'Architecting LangChain + AWS Bedrock agent pipeline for healthcare analytics chatbot serving federal CMS contract.',
-      'Implementing RAG-based patient data retrieval via MCP and integrating 4+ external medical APIs (PubMed, NIH).',
-      'Designing multi-tool agent with 3 action groups reducing manual query prompting via automated IAM and LangChain.',
-      'Building structured multi-agent workflow in LangGraph with Supervisor, Knowledge, and Database agents routing queries across Amazon Redshift.',
-      'Deploying AWS Lambda functions for authentication, QuickSight integration, and LLM invocation via CI/CD.',
+      'Collaborated with engineering team to architect AWS Strands + Bedrock multi-agent pipeline for healthcare analytics chatbot serving CMS contract.',
+      'Built embeddable Angular 20 chat widget rendering 5 streamed SSE event types across 3 swappable transports.',
+      'Implemented text-to-SQL retrieval via MCP server exposing 2 database tools, alongside a RAG-based Knowledge Agent for unstructured document queries on Amazon Redshift enrollment.',
+      'Designed multi-agent using MCP gateway tools, reducing manual query prompting by 20% via Python orchestration.',
+      'Built structured multi-agent workflow in Strands with Supervisor, SQL, and Analysis specialists routing queries across Amazon Redshift.',
+      'Deployed AWS Lambda, ECS/Fargate/ECR, and S3/CloudFront for Entra authentication, and CI/CD.',
     ],
   },
   {
     role: 'Software Development',
     company: 'Crackd.ai',
     period: 'December 2025 – May 2026',
+    location: 'Remote',
     stack: ['React', 'TypeScript', 'LLM Integration', 'Next.js'],
     bullets: [
       'Built full-stack AI image caption app with 5+ React/TypeScript components and real-time LLM output.',
@@ -85,20 +100,22 @@ export const experiences = [
     ],
   },
   {
-    role: 'Systems Infrastructure Intern',
+    role: 'GPU HPC Intern',
     company: 'Columbia University Computer Science',
     period: 'May 2025 – May 2026',
+    location: 'Manhattan, NY',
     stack: ['Kubernetes', 'Docker', 'GitLab CI/CD', 'Python', 'Bash', 'Ansible'],
     bullets: [
-      'Designed and ran tests on monitoring systems processing 15,000+ data points/hour, validating server health.',
-      'Resolved 200+ technical support tickets, diagnosing and fixing server, network, and account issues for researchers.',
-      'Engineered Flask-based dashboard with LDAP authentication and DNS resolution diagnostics for 50+ researchers with technical documentation.',
+      'Built end-to-end downtime reduction platform monitoring 15,000+ data points/hour to validate server health.',
+      'Delivered premier research GPU server support, building a Flask-based dashboard with LDAP authentication and DNS resolution diagnostics for 50+ researchers, docs included.',
+      'Resolved 200+ tech support tickets, diagnosing and fixing server, network, and account issues, minimizing downtime.',
     ],
   },
   {
     role: 'Teaching Assistant, Data Structures',
     company: 'Columbia University CS',
     period: 'January 2026 – December 2026',
+    location: 'Manhattan, NY',
     stack: ['Java', 'Algorithms', 'Office Hours'],
     bullets: [
       'Support 300+ students in understanding core data structures/algorithms through office hours and assignment grading.',
@@ -109,6 +126,7 @@ export const experiences = [
     role: 'Multimedia Assistant',
     company: 'Columbia School of Social Work',
     period: 'September 2024 – May 2025',
+    location: 'Manhattan, NY',
     stack: ['Technical Support', 'Help Desk'],
     bullets: [
       'Provided technical support to professors, troubleshooting monitors, computers, and classroom technology setups.',
@@ -119,6 +137,7 @@ export const experiences = [
     role: 'Teaching Assistant',
     company: 'Columbia Summer Engineering Program',
     period: 'June 2024 – August 2024',
+    location: 'Manhattan, NY',
     stack: ['Python', 'pandas', 'NumPy', 'C++', 'Unity', 'C#'],
     bullets: [
       'Guided 40+ students through 50+ competitive programming challenges in C++/Java, and software design/OOP skills.',

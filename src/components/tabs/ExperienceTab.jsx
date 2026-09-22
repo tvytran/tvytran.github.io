@@ -6,13 +6,16 @@ export default function ExperienceTab() {
       <h1 className="text-peri-deep font-bold text-2xl mb-6">experience</h1>
 
       <div className="space-y-5">
-        {experiences.map(({ role, company, period, stack, bullets }) => (
+        {experiences.map(({ role, company, period, location, stack, bullets }) => (
           <div key={role + company} className="border-2 border-peri/40 rounded-xl overflow-hidden">
             <div className="bg-peri-pale px-4 md:px-5 py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5">
               <span className="font-bold text-peri-deep text-sm">
                 {company} · {role}
               </span>
-              <span className="text-xs text-peri font-semibold">{period}</span>
+              <span className="text-xs text-peri font-semibold whitespace-nowrap">
+                {period}
+                {location ? ` · ${location}` : ''}
+              </span>
             </div>
             <div className="px-4 md:px-5 py-3.5">
               <ul className="space-y-1.5">
